@@ -147,7 +147,26 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'facebook',
 					url: /^facebook\.com/
-				}
+				},
+        {
+          name: 'googleSlides',
+          url: [
+            /^docs\.google\.com\/presentation\/d\/(\w+)/,
+          ],
+          html: match => {
+            const id = match[ 1 ]
+            
+            return (
+							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
+								`<iframe src="https://docs.google.com/presentation/d/${id}/embed?loop=false" ` +
+									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
+									'frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
+								'</iframe>' +
+							'</div>'
+						)
+
+          }
+        }
 			]
 		} );
 
