@@ -106,8 +106,17 @@ ClassicEditor.defaultConfig = {
 		]
     
 	},
-  htmlEmbed: { showPreviews: true },
-  mediaEmbed: { previewsInData: true },
+	mention: {
+		feeds: [
+		  {
+			marker: '@',
+			minimumCharacters: 1,
+			feed: [ '@Barney', '@Lily', '@Marshall', '@Robin', '@Ted' ],
+		  }
+		]
+	},
+	htmlEmbed: { showPreviews: true },
+	mediaEmbed: { previewsInData: true },
 	// This value must be kept in sync with the language defined in webpack.config.js.
 	language: 'en'
 };
