@@ -31,8 +31,9 @@ import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
 import HTMLEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed';
-import UploadVideo from '@ckeditor/ckeditor5-build-classic/src/uploadVideoPlugin';
 import Mention from '@ckeditor/ckeditor5-mention/src/mention';
+import MentionUI from '@ckeditor/ckeditor5-mention/src/mentionui';
+import MentionEditing from '@ckeditor/ckeditor5-mention/src/mentionediting';
 
 export default class ClassicEditor extends ClassicEditorBase {}
 
@@ -64,7 +65,8 @@ ClassicEditor.builtinPlugins = [
 	TextTransformation,
 	HTMLEmbed,
 	Mention,
-  // UploadVideo,
+	MentionUI,
+	MentionEditing
 ];
 
 // Editor configuration.
@@ -103,16 +105,6 @@ ClassicEditor.defaultConfig = {
 			'tableColumn',
 			'tableRow',
 			'mergeTableCells'
-		]
-    
-	},
-	mention: {
-		feeds: [
-		  {
-			marker: '@',
-			minimumCharacters: 1,
-			feed: [ '@Barney', '@Lily', '@Marshall', '@Robin', '@Ted' ],
-		  }
 		]
 	},
 	htmlEmbed: { showPreviews: true },
