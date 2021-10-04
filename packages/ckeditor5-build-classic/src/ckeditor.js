@@ -30,8 +30,10 @@ import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
-import HTMLEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed'
-import UploadVideo from '@ckeditor/ckeditor5-build-classic/src/uploadVideoPlugin'
+import HTMLEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed';
+import Mention from '@ckeditor/ckeditor5-mention/src/mention';
+import MentionUI from '@ckeditor/ckeditor5-mention/src/mentionui';
+import MentionEditing from '@ckeditor/ckeditor5-mention/src/mentionediting';
 
 export default class ClassicEditor extends ClassicEditorBase {}
 
@@ -61,8 +63,10 @@ ClassicEditor.builtinPlugins = [
 	Table,
 	TableToolbar,
 	TextTransformation,
-  HTMLEmbed,
-  // UploadVideo,
+	HTMLEmbed,
+	Mention,
+	MentionUI,
+	MentionEditing
 ];
 
 // Editor configuration.
@@ -82,8 +86,8 @@ ClassicEditor.defaultConfig = {
 			'|',
 			'uploadImage',
 			'blockQuote',
-      'htmlEmbed',
-      'mediaEmbed',
+			'htmlEmbed',
+			'mediaEmbed',
 			'undo',
 			'redo'
 		]
@@ -102,10 +106,9 @@ ClassicEditor.defaultConfig = {
 			'tableRow',
 			'mergeTableCells'
 		]
-    
 	},
-  htmlEmbed: { showPreviews: true },
-  mediaEmbed: { previewsInData: true },
+	htmlEmbed: { showPreviews: true },
+	mediaEmbed: { previewsInData: true },
 	// This value must be kept in sync with the language defined in webpack.config.js.
 	language: 'en'
 };
