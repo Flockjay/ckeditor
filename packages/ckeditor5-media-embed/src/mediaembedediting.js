@@ -148,43 +148,60 @@ export default class MediaEmbedEditing extends Plugin {
 					name: 'facebook',
 					url: /^facebook\.com/
 				},
-        {
-          name: 'googleSlides',
-          url: [
-            /^docs\.google\.com\/presentation\/d\/(\w+)/,
-          ],
-          html: match => {
-            const id = match[ 1 ]
-            
-            return (
+				{
+					name: 'googleSlides',
+					url: [
+						/^docs\.google\.com\/presentation\/d\/(\w+)/
+					],
+					html: match => {
+						const id = match[ 1 ];
+
+						return (
 							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
-								`<iframe src="https://docs.google.com/presentation/d/${id}/embed?loop=false" ` +
+								`<iframe src="https://docs.google.com/presentation/d/${ id }/embed?loop=false" ` +
 									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
 									'frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
 								'</iframe>' +
 							'</div>'
-						)
+						);
+					}
+				},
+				{
+					name: 'googleDocs',
+					url: [
+						/^docs\.google\.com\/document\/d\/(\w+)/
+					],
+					html: match => {
+						const id = match[ 1 ];
 
-          }
-        },
-        {
-          name: 'googleDocs',
-          url: [
-            /^docs\.google\.com\/document\/d\/(\w+)/,
-          ],
-          html: match => {
-            const id = match[ 1 ]
-            
-            return (
-              '<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
-                `<iframe src="https://docs.google.com/document/d/${id}/pub?embedded=true" ` +
+						return (
+							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
+                `<iframe src="https://docs.google.com/document/d/${ id }/pub?embedded=true" ` +
                   'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
                   'frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
                 '</iframe>' +
               '</div>'
-            )
-          }
-        }
+						);
+					}
+				},
+				{
+					name: 'loom',
+					url: [
+						/^loom\.com\/share\/d\/(\w+)/
+					],
+					html: match => {
+						const id = match[ 1 ];
+
+						return (
+							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
+								`<iframe src="https://www.loom.com/embed/${ id }" ` +
+									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
+									'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>' +
+								'</iframe>' +
+							'</div>'
+						);
+					}
+				}
 			]
 		} );
 
