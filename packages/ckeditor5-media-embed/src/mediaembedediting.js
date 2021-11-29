@@ -211,8 +211,8 @@ export default class MediaEmbedEditing extends Plugin {
 						const url = match[ 0 ];
 
 						return (
-							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
-								`<video src="${ url }" controls controlsList="nodownload"></video>` +
+							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%; max-width: 100%;">' +
+								`<video style="max-width: 100%;" src="${ url }" controls controlsList="nodownload"></video>` +
 							'</div>'
 						);
 					}
