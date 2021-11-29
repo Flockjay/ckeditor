@@ -205,7 +205,7 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'fjVideo',
 					url: [
-						/^https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/fj-video-([\w-]+).mkv/
+						/^https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/fjvideo-([\w-]+).mkv/
 					],
 					html: match => {
 						const url = match[ 0 ];
