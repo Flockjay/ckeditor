@@ -110,12 +110,16 @@ export default class MediaRegistry {
 		}
 
 		url = url.trim();
+		console.log( 'url to match', url )
 
 		for ( const definition of this.providerDefinitions ) {
 			const previewRenderer = definition.html;
 			const pattern = toArray( definition.url );
 
+			console.log( 'definition name:', definition.name )
+
 			for ( const subPattern of pattern ) {
+				console.log( 'subPattern', subPattern )
 				const match = this._getUrlMatches( url, subPattern );
 
 				if ( match ) {
@@ -140,6 +144,7 @@ export default class MediaRegistry {
 		let match = url.match( pattern );
 
 		if ( match ) {
+			console.log( 'registry match:', match );
 			return match;
 		}
 
@@ -148,6 +153,7 @@ export default class MediaRegistry {
 		match = rawUrl.match( pattern );
 
 		if ( match ) {
+			console.log( 'registry match:', match );
 			return match;
 		}
 
@@ -156,6 +162,7 @@ export default class MediaRegistry {
 		match = rawUrl.match( pattern );
 
 		if ( match ) {
+			console.log( 'registry match:', match );
 			return match;
 		}
 
