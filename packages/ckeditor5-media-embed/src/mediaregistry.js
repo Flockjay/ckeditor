@@ -111,14 +111,11 @@ export default class MediaRegistry {
 
 		url = url.trim();
 
-		console.log( url )
-
 		for ( const definition of this.providerDefinitions ) {
 			const previewRenderer = definition.html;
 			const pattern = toArray( definition.url );
 
 			for ( const subPattern of pattern ) {
-				console.log( 'subPattern:', subPattern )
 				const match = this._getUrlMatches( url, subPattern );
 
 				if ( match ) {
