@@ -210,8 +210,6 @@ export default class MediaEmbedEditing extends Plugin {
 					html: match => {
 						const url = match[ 0 ];
 
-						// "https://fj-file-uploads.s3.us-east-2.amazonaws.com/fjvideo-324d4229fe3798_jlna0hb1fl6pva.mkv"
-
 						return (
 							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
 								`<video src="${url}" controls controlsList="nodownload"></video>` +
