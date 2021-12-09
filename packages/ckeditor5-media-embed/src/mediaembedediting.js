@@ -201,6 +201,17 @@ export default class MediaEmbedEditing extends Plugin {
 							'</div>'
 						);
 					}
+				},
+				{
+					name: 'fjVideo',
+					url: [
+						/^https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/fjvideo-([\w-]+).([\w-]+)/
+					],
+					html: match => {
+						const url = match[ 0 ];
+
+						return `<video style="max-width: 100%;" src="${ url }" controls controlsList="nodownload"></video>`;
+					}
 				}
 			]
 		} );
