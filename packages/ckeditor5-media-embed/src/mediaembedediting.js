@@ -210,9 +210,10 @@ export default class MediaEmbedEditing extends Plugin {
 					html: match => {
 						const url = match[ 0 ];
 						const posterUrl = `${ match[ 1 ] }-thumbnail.jpg`;
+						const id = `fjvideo-${ match[ 2 ] }`;
 
 						return (
-							`<video style="max-width: 100%;" poster="${ posterUrl }" controls controlsList="nodownload">` +
+							`<video id=${ id } style="max-width: 100%;" poster="${ posterUrl }" controls controlsList="nodownload">` +
 								`<source type="video/mp4" src=${ url }></source>` +
 							'</video>'
 						);
