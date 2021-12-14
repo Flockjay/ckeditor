@@ -209,8 +209,12 @@ export default class MediaEmbedEditing extends Plugin {
 					],
 					html: match => {
 						const url = match[ 0 ];
+						const posterUrl = `${ match[ 1 ] }-thumnbail.jpg`;
 
-						return `<video style="max-width: 100%;" src="${ url }" controls controlsList="nodownload"></video>`;
+						return (
+							`<video style="max-width: 100%;" src="${ url }" poster="${ posterUrl }" controls controlsList="nodownload">` +
+							'</video>'
+						);
 					}
 				}
 			]
