@@ -205,15 +205,15 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'fjVideo',
 					url: [
-						/^https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/fjvideo-([\w-]+).([\w-]+)/
+						/^(https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/fjvideo-([\w-]+)).([\w-]+)/
 					],
 					html: match => {
 						const url = match[ 0 ];
-						const posterUrl = `${ match[ 1 ] }-thumnbail.jpg`;
-						console.log( posterUrl );
+						const posterUrl = `${ match[ 1 ] }-thumbnail.jpg`;
 
 						return (
-							`<video style="max-width: 100%;" src="${ url }" poster="${ posterUrl }" controls controlsList="nodownload">` +
+							`<video style="max-width: 100%;" poster="${ posterUrl }" controls controlsList="nodownload">` +
+								`<source type="video/mp4" src=${ url }></source>` +
 							'</video>'
 						);
 					}
