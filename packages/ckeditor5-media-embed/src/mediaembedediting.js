@@ -210,6 +210,7 @@ export default class MediaEmbedEditing extends Plugin {
 					html: match => {
 						const url = match[ 0 ];
 						const posterUrl = `${ match[ 1 ] }-thumnbail.jpg`;
+						console.log( posterUrl );
 
 						return (
 							`<video style="max-width: 100%;" src="${ url }" poster="${ posterUrl }" controls controlsList="nodownload">` +
