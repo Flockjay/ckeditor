@@ -213,9 +213,12 @@ export default class MediaEmbedEditing extends Plugin {
 						const id = `fjvideo-${ match[ 2 ] }`;
 
 						return (
-							`<video id=${ id } style="max-width: 100%;" poster="${ posterUrl }" controls controlsList="nodownload">` +
-								`<source type="video/mp4" src=${ url }></source>` +
-							'</video>'
+							'<div style="position: relative; background-color: black; text-align: center;">' +
+								`<video id=${ id } style="max-width: 100%;" poster="${ posterUrl }" ` +
+									'controls controlsList="nodownload" preload="metadata">' +
+									`<source type="video/mp4" src=${ url }></source>` +
+								'</video>' +
+							'</div>'
 						);
 					}
 				},
