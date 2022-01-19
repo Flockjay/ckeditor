@@ -187,7 +187,7 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'loom',
 					url: [
-						/^loom\.com\/share\/([\w-]+)/
+						/^loom\.com\/(?:share|embed)\/([\w-]+)/
 					],
 					html: match => {
 						const id = match[ 1 ];
