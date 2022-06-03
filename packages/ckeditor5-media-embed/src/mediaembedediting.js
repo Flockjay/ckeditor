@@ -205,7 +205,7 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'fjVideo',
 					url: [
-						/^(https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/fjvideo-([\w-]+)).([\w-]+)/
+						/^(https:\/\/cdn\.flockjay\.com\/fjvideo-([\w-]+)).([\w-]+)/
 					],
 					html: match => {
 						const url = match[ 0 ];
@@ -216,7 +216,7 @@ export default class MediaEmbedEditing extends Plugin {
 						return (
 							'<div style="position: relative; background-color: black; text-align: center;">' +
 								`<video id=${ id } style="max-width: 100%;"  ${ poster }` +
-									'controls controlsList="nodownload" preload="metadata">' +
+									'controls controlsList="nodownload" preload="metadata">' +	
 									`<source type="video/${ ext }" src=${ url }></source>` +
 								'</video>' +
 							'</div>'
