@@ -9,7 +9,7 @@
 
 import { Plugin, icons } from 'ckeditor5/src/core';
 import { FileDialogButtonView } from 'ckeditor5/src/upload';
-import { createImageTypeRegExp } from './utils';
+import { createImageTypeRegExp, createVideoTypeRegExp } from './utils';
 
 /**
  * The image upload button plugin.
@@ -39,10 +39,17 @@ export default class ImageUploadUI extends Plugin {
 			const view = new FileDialogButtonView( locale );
 			const command = editor.commands.get( 'uploadImage' );
 			const imageTypes = editor.config.get( 'image.upload.types' );
+			const videoTypes = editor.config.get( 'video.upload.types' );
+
 			const imageTypesRegExp = createImageTypeRegExp( imageTypes );
+			const videoTypesRegExp = createVideoTypeRegExp( videoTypes );
 
 			view.set( {
-				acceptedType: imageTypes.map( type => `image/${ type }` ).join( ',' ),
+				acceptedType:
+					imageTypes.map( type => `image/${ type }` ).join( ',' ) +
+					',' +
+					videoTypes.map( type => `video/${ type }` ).join( ',' ) +
+					',application/pdf',
 				allowMultipleFiles: true
 			} );
 
@@ -56,9 +63,17 @@ export default class ImageUploadUI extends Plugin {
 
 			view.on( 'done', ( evt, files ) => {
 				const imagesToUpload = Array.from( files ).filter( file => imageTypesRegExp.test( file.type ) );
+				const videosToUpload = Array.from( files ).filter( file => videoTypesRegExp.test( file.type ) );
+				const pdfsToUpload = Array.from( files ).filter( file => file.type === 'application/pdf' );
 
 				if ( imagesToUpload.length ) {
 					editor.execute( 'uploadImage', { file: imagesToUpload } );
+				}
+				if ( videosToUpload.length ) {
+					editor.execute( 'uploadImage', { file: videosToUpload } );
+				}
+				if ( pdfsToUpload.length ) {
+					editor.execute( 'uploadImage', { file: pdfsToUpload } );
 				}
 			} );
 
