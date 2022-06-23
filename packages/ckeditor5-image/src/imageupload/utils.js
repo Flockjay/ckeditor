@@ -28,6 +28,11 @@ export function createImageTypeRegExp( types ) {
 	return new RegExp( `^image\\/(${ regExpSafeNames.join( '|' ) })$` );
 }
 
+export function createVideoTypeRegExp( types ) {
+	const regExpSafeNames = types.map( type => type.replace( '+', '\\+' ) );
+	return new RegExp( `^video\\/(${ regExpSafeNames.join( '|' ) })$` );
+}
+
 /**
  * Creates a promise that fetches the image local source (Base64 or blob) and resolves with a `File` object.
  *

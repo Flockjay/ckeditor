@@ -11,6 +11,7 @@ import { Plugin } from 'ckeditor5/src/core';
 import ImageUploadUI from './imageupload/imageuploadui';
 import ImageUploadProgress from './imageupload/imageuploadprogress';
 import ImageUploadEditing from './imageupload/imageuploadediting';
+import FileUpload from './fileupload';
 
 /**
  * The image upload plugin.
@@ -37,7 +38,7 @@ export default class ImageUpload extends Plugin {
 	 * @inheritDoc
 	 */
 	static get requires() {
-		return [ ImageUploadEditing, ImageUploadUI, ImageUploadProgress ];
+		return [ ImageUploadEditing, ImageUploadUI, ImageUploadProgress, FileUpload ];
 	}
 }
 
