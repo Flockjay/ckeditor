@@ -70,10 +70,10 @@ export default class ImageUploadUI extends Plugin {
 					editor.execute( 'uploadImage', { file: imagesToUpload } );
 				}
 				if ( videosToUpload.length ) {
-					editor.execute( 'uploadImage', { file: videosToUpload } );
+					editor.execute( 'uploadVideo', { file: videosToUpload } );
 				}
 				if ( pdfsToUpload.length ) {
-					editor.execute( 'uploadImage', { file: pdfsToUpload } );
+					editor.execute( 'fileUpload', { file: pdfsToUpload } );
 				}
 			} );
 
