@@ -55,7 +55,7 @@ export default class ImageUploadEditing extends Plugin {
 		} );
 		editor.config.define( 'video', {
 			upload: {
-				types: [ 'mp4', 'webm', 'ogg', 'ogv', 'avi', 'wmv', 'mkv', 'mpeg2', 'mov' ]
+				types: [ 'mp4', 'webm', 'quicktime' ]
 			}
 		} );
 	}

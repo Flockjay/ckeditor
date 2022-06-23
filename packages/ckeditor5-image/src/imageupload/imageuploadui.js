@@ -49,7 +49,7 @@ export default class ImageUploadUI extends Plugin {
 					imageTypes.map( type => `image/${ type }` ).join( ',' ) +
 					',' +
 					videoTypes.map( type => `video/${ type }` ).join( ',' ) +
-					',application/pdf',
+					',application/pdf,.mkv',
 				allowMultipleFiles: true
 			} );
 
@@ -63,7 +63,9 @@ export default class ImageUploadUI extends Plugin {
 
 			view.on( 'done', ( evt, files ) => {
 				const imagesToUpload = Array.from( files ).filter( file => imageTypesRegExp.test( file.type ) );
-				const videosToUpload = Array.from( files ).filter( file => videoTypesRegExp.test( file.type ) );
+				const videosToUpload = Array.from( files ).filter( file => {
+					return videoTypesRegExp.test( file.type ) || file.name.includes( '.mkv' );
+				} );
 				const pdfsToUpload = Array.from( files ).filter( file => file.type === 'application/pdf' );
 
 				if ( imagesToUpload.length ) {
