@@ -97,12 +97,11 @@ ClassicEditor.defaultConfig = {
 			'outdent',
 			'indent',
 			'|',
-			'uploadImage',
 			'blockQuote',
 			'htmlEmbed',
 			'mediaEmbed',
-			'undo',
-			'redo'
+			'|',
+			'uploadImage'
 		]
 	},
 	image: {
