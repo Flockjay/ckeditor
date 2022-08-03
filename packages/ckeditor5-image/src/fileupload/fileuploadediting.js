@@ -79,6 +79,10 @@ export default class FileUploadEditing extends Plugin {
 				return fileTypes.test( file.type );
 			} );
 
+			if ( !data.targetRanges ) {
+				return;
+			}
+
 			const ranges = data.targetRanges.map( viewRange => editor.editing.mapper.toModelRange( viewRange ) );
 
 			editor.model.change( writer => {
