@@ -19,7 +19,8 @@ import Image from '@ckeditor/ckeditor5-image/src/image';
 import ImageCaption from '@ckeditor/ckeditor5-image/src/imagecaption';
 import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle';
 import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
-import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload';
+// eslint-disable-next-line ckeditor5-rules/no-relative-imports
+import ImageUpload from '../../ckeditor5-image/src/imageupload';
 import Indent from '@ckeditor/ckeditor5-indent/src/indent';
 import Link from '@ckeditor/ckeditor5-link/src/link';
 import List from '@ckeditor/ckeditor5-list/src/list';
@@ -34,6 +35,12 @@ import HTMLEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed';
 import Mention from '@ckeditor/ckeditor5-mention/src/mention';
 import MentionUI from '@ckeditor/ckeditor5-mention/src/mentionui';
 import MentionEditing from '@ckeditor/ckeditor5-mention/src/mentionediting';
+import VideoToolbar from '@visao/ckeditor5-video/src/videotoolbar.js';
+import Video from '@visao/ckeditor5-video/src/video.js';
+import VideoUpload from '@visao/ckeditor5-video/src/videoupload.js';
+import VideoResize from '@visao/ckeditor5-video/src/videoresize.js';
+import VideoStyle from '@visao/ckeditor5-video/src/videostyle.js';
+import VideoInsert from '@visao/ckeditor5-video/src/videoinsert.js';
 
 export default class ClassicEditor extends ClassicEditorBase {}
 
@@ -66,7 +73,13 @@ ClassicEditor.builtinPlugins = [
 	HTMLEmbed,
 	Mention,
 	MentionUI,
-	MentionEditing
+	MentionEditing,
+	VideoToolbar,
+	Video,
+	VideoUpload,
+	VideoResize,
+	VideoStyle,
+	VideoInsert
 ];
 
 // Editor configuration.
@@ -84,12 +97,11 @@ ClassicEditor.defaultConfig = {
 			'outdent',
 			'indent',
 			'|',
-			'uploadImage',
 			'blockQuote',
 			'htmlEmbed',
 			'mediaEmbed',
-			'undo',
-			'redo'
+			'|',
+			'uploadImage'
 		]
 	},
 	image: {
@@ -101,14 +113,18 @@ ClassicEditor.defaultConfig = {
 		]
 	},
 	table: {
-		contentToolbar: [
-			'tableColumn',
-			'tableRow',
-			'mergeTableCells'
-		]
+		contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
 	},
 	htmlEmbed: { showPreviews: true },
 	mediaEmbed: { previewsInData: true },
 	// This value must be kept in sync with the language defined in webpack.config.js.
-	language: 'en'
+	language: 'en',
+	video: {
+		styles: [ 'alignLeft', 'alignCenter', 'alignRight' ],
+		toolbar: [
+			'videoStyle:alignLeft',
+			'videoStyle:alignCenter',
+			'videoStyle:alignRight'
+		]
+	}
 };

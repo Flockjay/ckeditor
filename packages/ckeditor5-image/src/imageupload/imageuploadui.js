@@ -7,9 +7,10 @@
  * @module image/imageupload/imageuploadui
  */
 
-import { Plugin, icons } from 'ckeditor5/src/core';
+import { Plugin } from 'ckeditor5/src/core';
 import { FileDialogButtonView } from 'ckeditor5/src/upload';
-import { createImageTypeRegExp } from './utils';
+import { createImageTypeRegExp, createVideoTypeRegExp } from './utils';
+import mediaUploadIcon from '../../theme/icons/upload-media.svg';
 
 /**
  * The image upload button plugin.
@@ -39,16 +40,23 @@ export default class ImageUploadUI extends Plugin {
 			const view = new FileDialogButtonView( locale );
 			const command = editor.commands.get( 'uploadImage' );
 			const imageTypes = editor.config.get( 'image.upload.types' );
+			const videoTypes = editor.config.get( 'video.upload.types' );
+
 			const imageTypesRegExp = createImageTypeRegExp( imageTypes );
+			const videoTypesRegExp = createVideoTypeRegExp( videoTypes );
 
 			view.set( {
-				acceptedType: imageTypes.map( type => `image/${ type }` ).join( ',' ),
+				acceptedType:
+					imageTypes.map( type => `image/${ type }` ).join( ',' ) +
+					',' +
+					videoTypes.map( type => `video/${ type }` ).join( ',' ) +
+					',application/pdf,.mkv',
 				allowMultipleFiles: true
 			} );
 
 			view.buttonView.set( {
-				label: t( 'Insert image' ),
-				icon: icons.image,
+				label: t( 'Insert Media' ),
+				icon: mediaUploadIcon,
 				tooltip: true
 			} );
 
@@ -56,9 +64,19 @@ export default class ImageUploadUI extends Plugin {
 
 			view.on( 'done', ( evt, files ) => {
 				const imagesToUpload = Array.from( files ).filter( file => imageTypesRegExp.test( file.type ) );
+				const videosToUpload = Array.from( files ).filter( file => {
+					return videoTypesRegExp.test( file.type ) || file.name.includes( '.mkv' );
+				} );
+				const pdfsToUpload = Array.from( files ).filter( file => file.type === 'application/pdf' );
 
 				if ( imagesToUpload.length ) {
 					editor.execute( 'uploadImage', { file: imagesToUpload } );
+				}
+				if ( videosToUpload.length ) {
+					editor.execute( 'uploadVideo', { file: videosToUpload } );
+				}
+				if ( pdfsToUpload.length ) {
+					editor.execute( 'fileUpload', { file: pdfsToUpload } );
 				}
 			} );
 
