@@ -50,12 +50,22 @@ export default class ImageUploadEditing extends Plugin {
 
 		editor.config.define( 'image', {
 			upload: {
-				types: [ 'jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff' ]
+				types: [ '.jpeg', '.png', '.gif', '.bmp', '.webp', '.tiff' ]
 			}
 		} );
 		editor.config.define( 'video', {
 			upload: {
-				types: [ 'mp4', 'webm', 'quicktime' ]
+				types: [ '.mp4', '.webm', '.mov', '.mpg', '.mpeg', '.mkv' ]
+			}
+		} );
+		editor.config.define( 'file', {
+			upload: {
+				types: [ '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.xlsm', '.odp', '.pps', '.ppt', '.pptx' ]
+			}
+		} );
+		editor.config.define( 'extraFile', {
+			upload: {
+				types: [ '.rtf', '.txt', '.key', '.mp3', '.email', '.eml', '.emlx' ]
 			}
 		} );
 	}
