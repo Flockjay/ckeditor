@@ -9,8 +9,6 @@ export const imageMimeTypes = {
 export const videoMimeTypes = {
 	'mp4': 'mp4',
 	'webm': 'webm',
-	'mov': 'quicktime',
-	'mpg': 'mpg',
-	'mpeg': 'mpeg'
+	'mov': 'quicktime'
 };
 

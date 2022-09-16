@@ -55,7 +55,7 @@ export default class ImageUploadEditing extends Plugin {
 		} );
 		editor.config.define( 'video', {
 			upload: {
-				types: [ '.mp4', '.webm', '.mov', '.mpg', '.mpeg', '.mkv' ]
+				types: [ '.mp4', '.webm', '.mov', '.mkv' ]
 			}
 		} );
 		editor.config.define( 'file', {
@@ -65,7 +65,7 @@ export default class ImageUploadEditing extends Plugin {
 		} );
 		editor.config.define( 'extraFile', {
 			upload: {
-				types: [ '.rtf', '.txt', '.key', '.mp3', '.email', '.eml', '.emlx' ]
+				types: [ '.rtf', '.txt', '.key', '.mp3', '.email', '.eml', '.emlx', '.mpg', '.mpeg' ]
 			}
 		} );
 	}
