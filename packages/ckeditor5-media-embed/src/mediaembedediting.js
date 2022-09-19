@@ -16,6 +16,9 @@ import { toMediaWidget, createMediaFigureElement } from './utils';
 
 import '../theme/mediaembedediting.css';
 
+const EXTERNAL_MEDIA_REGEX =
+	/^<a.+href="(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*\.(pdf|mpg|mpeg)))"/;
+
 /**
  * The media embed editing feature.
  *
@@ -206,7 +209,7 @@ export default class MediaEmbedEditing extends Plugin {
 					name: 'fjVideo',
 					url: [
 						/^(https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/fjvideo-([\w-]+)).([\w-]+)/,
-						/^(https:\/\/cdn.flockjay.com\/fjvideo-([\w-]+)).([\w-]+)/,
+						/^(https:\/\/cdn.flockjay.com\/fjvideo-([\w-]+)).([\w-]+)/
 					],
 					html: match => {
 						const url = match[ 0 ];
@@ -241,6 +244,33 @@ export default class MediaEmbedEditing extends Plugin {
 								'</iframe>' +
 							'</div>'
 						);
+					}
+				},
+				{
+					name: 'externalMediaEmbed',
+					url: EXTERNAL_MEDIA_REGEX,
+					html: match => {
+						const url = match[ 1 ];
+						const ext = match[ 4 ];
+
+						if ( [ 'mpg', 'mpeg' ].includes( ext ) ) {
+							return (
+								'<div style="position: relative; background-color: black; text-align: center;">' +
+									'<video style="max-width: 100%;"' +
+										'controls controlsList="nodownload" preload="metadata">' +
+										`<source type="video/${ ext }" src=${ url }></source>` +
+									'</video>' +
+								'</div>'
+							);
+						} else if ( ext === 'pdf' ) {
+							return (
+								'<div style="position: relative; background-color: black; text-align: center; width: 100%; ' +
+									'height: "0px" padding-bottom: 56.25%;>' +
+										`<iframe src="${ url }" style="width: 100%; height: 100%; left: 0; right: 0; 
+											poisition: absolute"></iframe>"` +
+								'</div>'
+							);
+						}
 					}
 				}
 			]
