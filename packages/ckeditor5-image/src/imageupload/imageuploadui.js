@@ -10,6 +10,7 @@
 import { Plugin } from 'ckeditor5/src/core';
 import { FileDialogButtonView } from 'ckeditor5/src/upload';
 import { createImageTypeRegExp, createVideoTypeRegExp } from './utils';
+import { createFileTypeRegExp } from '../fileupload/utils';
 import mediaUploadIcon from '../../theme/icons/upload-media.svg';
 
 /**
@@ -41,16 +42,22 @@ export default class ImageUploadUI extends Plugin {
 			const command = editor.commands.get( 'uploadImage' );
 			const imageTypes = editor.config.get( 'image.upload.types' );
 			const videoTypes = editor.config.get( 'video.upload.types' );
+			const fileTypes = editor.config.get( 'file.upload.types' );
+			const extraFileTypes = editor.config.get( 'extraFile.upload.types' );
 
 			const imageTypesRegExp = createImageTypeRegExp( imageTypes );
 			const videoTypesRegExp = createVideoTypeRegExp( videoTypes );
+			const fileTypesRegExp = createFileTypeRegExp( fileTypes );
 
 			view.set( {
 				acceptedType:
-					imageTypes.map( type => `image/${ type }` ).join( ',' ) +
+					imageTypes.map( type => `${ type }` ).join( ',' ) +
 					',' +
-					videoTypes.map( type => `video/${ type }` ).join( ',' ) +
-					',application/pdf,.mkv',
+					videoTypes.map( type => `${ type }` ).join( ',' ) +
+					',' +
+					fileTypes.map( type => `${ type }` ).join( ',' ) +
+					',' +
+					extraFileTypes.map( type => `${ type }` ).join( ',' ),
 				allowMultipleFiles: true
 			} );
 
@@ -67,7 +74,12 @@ export default class ImageUploadUI extends Plugin {
 				const videosToUpload = Array.from( files ).filter( file => {
 					return videoTypesRegExp.test( file.type ) || file.name.includes( '.mkv' );
 				} );
-				const pdfsToUpload = Array.from( files ).filter( file => file.type === 'application/pdf' );
+				const filesToUpload = Array.from( files ).filter( file => {
+					return fileTypesRegExp.test( file.type );
+				} );
+				const extraFilesToUpload = Array.from( files ).filter( file => {
+					return extraFileTypes.some( type => file.name.includes( type ) );
+				} );
 
 				if ( imagesToUpload.length ) {
 					editor.execute( 'uploadImage', { file: imagesToUpload } );
@@ -75,8 +87,11 @@ export default class ImageUploadUI extends Plugin {
 				if ( videosToUpload.length ) {
 					editor.execute( 'uploadVideo', { file: videosToUpload } );
 				}
-				if ( pdfsToUpload.length ) {
-					editor.execute( 'fileUpload', { file: pdfsToUpload } );
+				if ( filesToUpload.length ) {
+					editor.execute( 'fileUpload', { file: filesToUpload } );
+				}
+				if ( extraFilesToUpload.length ) {
+					editor.execute( 'fileUpload', { file: extraFilesToUpload } );
 				}
 			} );
 

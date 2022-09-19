@@ -10,6 +10,7 @@
 /* global fetch, File */
 
 import { global } from 'ckeditor5/src/utils';
+import { imageMimeTypes, videoMimeTypes } from './mimeTypes';
 
 /**
  * Creates a regular expression used to test for image files.
@@ -23,13 +24,12 @@ import { global } from 'ckeditor5/src/utils';
  */
 export function createImageTypeRegExp( types ) {
 	// Sanitize the MIME type name which may include: "+", "-" or ".".
-	const regExpSafeNames = types.map( type => type.replace( '+', '\\+' ) );
-
+	const regExpSafeNames = Object.values( imageMimeTypes ).map( type => type.replace( '+', '\\+' ) );
 	return new RegExp( `^image\\/(${ regExpSafeNames.join( '|' ) })$` );
 }
 
 export function createVideoTypeRegExp( types ) {
-	const regExpSafeNames = types.map( type => type.replace( '+', '\\+' ) );
+	const regExpSafeNames = Object.values( videoMimeTypes ).map( type => type.replace( '+', '\\+' ) );
 	return new RegExp( `^video\\/(${ regExpSafeNames.join( '|' ) })$` );
 }
 
