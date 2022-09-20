@@ -206,7 +206,7 @@ export default class MediaEmbedEditing extends Plugin {
 					name: 'fjVideo',
 					url: [
 						/^(https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/fjvideo-([\w-]+)).([\w-]+)/,
-						/^(https:\/\/cdn.flockjay.com\/fjvideo-([\w-]+)).([\w-]+)/,
+						/^(https:\/\/cdn.flockjay.com\/fjvideo-([\w-]+)).([\w-]+)/
 					],
 					html: match => {
 						const url = match[ 0 ];
@@ -239,6 +239,27 @@ export default class MediaEmbedEditing extends Plugin {
 									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
 									'frameborder="0">' +
 								'</iframe>' +
+							'</div>'
+						);
+					}
+				},
+				{
+					name: 'pdfs',
+					url: [
+						/^(https:\/\/fj-file-uploads.s3.us-east-2.amazonaws.com\b([-a-zA-Z0-9()@:%_+.~#?&//=]*\.pdf))/,
+						/^(https:\/\/cdn.flockjay.com\b([-a-zA-Z0-9()@:%_+.~#?&//=]*\.pdf))/
+					],
+					html: match => {
+						const url = match[ 0 ];
+
+						return (
+							'<div style="position: relative; text-align: center;">' +
+								`<object data=${ url } type="application/pdf">` +
+									`<iframe src=${ url } ` +
+										'style="position: absolute; width: 100%;; top: 0; left: 0;" ' +
+										'frameborder="0">' +
+									'</iframe>' +
+								'</object>' +
 							'</div>'
 						);
 					}
