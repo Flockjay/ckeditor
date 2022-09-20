@@ -65,7 +65,7 @@ export default class ImageUploadEditing extends Plugin {
 		} );
 		editor.config.define( 'extraFile', {
 			upload: {
-				types: [ '.rtf', '.txt', '.key', '.mp3', '.email', '.eml', '.emlx', '.mpg', '.mpeg' ]
+				types: [ '.rtf', '.txt', '.key', '.mp3', '.email', '.eml', '.emlx', '.mpg', '.mpeg', '.zip', '.sketch', '.m4a' ]
 			}
 		} );
 	}
