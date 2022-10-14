@@ -227,12 +227,12 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'Gong',
 					url: [
-						/^(.+)app\.gong\.io\/call\?id=(.+)/,
-						/^(.+)app\.gong\.io\/embedded-call\?call-id=(.+)/,
-						/^(.+)app\.gong\.io\/e\/c-share\/\?tkn=(.+)/
+						/(?:.+)app\.gong\.io\/call\?id=(.+)/,
+						/(?:.+)app\.gong\.io\/embedded-call\?call-id=(.+)/,
+						/(?:.+)app\.gong\.io\/e\/c-share\/\?tkn=(.+)/
 					],
 					html: match => {
-						const idAndParams = match[ 2 ];
+						const idAndParams = match[ 1 ];
 
 						return (
 							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
