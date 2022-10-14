@@ -232,7 +232,7 @@ export default class MediaEmbedEditing extends Plugin {
 						/^(.+)app\.gong\.io\/e\/c-share\/\?tkn=(.+)/
 					],
 					html: match => {
-						const idAndParams = match[ 1 ];
+						const idAndParams = match[ 2 ];
 
 						return (
 							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
