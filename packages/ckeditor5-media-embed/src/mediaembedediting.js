@@ -206,7 +206,7 @@ export default class MediaEmbedEditing extends Plugin {
 					name: 'fjVideo',
 					url: [
 						/^(https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/fjvideo-([\w-]+)).([\w-]+)/,
-						/^(https:\/\/cdn.flockjay.com\/fjvideo-([\w-]+)).([\w-]+)/,
+						/^(https:\/\/cdn.flockjay.com\/fjvideo-([\w-]+)).([\w-]+)/
 					],
 					html: match => {
 						const url = match[ 0 ];
@@ -227,8 +227,9 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'Gong',
 					url: [
-						/^app\.gong\.io\/call\?id=(.+)/,
-						/^app\.gong\.io\/embedded-call\?call-id=(.+)/
+						/^(.+)app\.gong\.io\/call\?id=(.+)/,
+						/^(.+)app\.gong\.io\/embedded-call\?call-id=(.+)/,
+						/^(.+)app\.gong\.io\/e\/c-share\/\?tkn=(.+)/
 					],
 					html: match => {
 						const idAndParams = match[ 1 ];
