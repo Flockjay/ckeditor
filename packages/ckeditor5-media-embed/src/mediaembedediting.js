@@ -228,8 +228,7 @@ export default class MediaEmbedEditing extends Plugin {
 					name: 'Gong',
 					url: [
 						/(?:.+)app\.gong\.io\/call\?id=(.+)/,
-						/(?:.+)app\.gong\.io\/embedded-call\?call-id=(.+)/,
-						/(?:.+)app\.gong\.io\/e\/c-share\/\?tkn=(.+)/
+						/(?:.+)app\.gong\.io\/embedded-call\?call-id=(.+)/
 					],
 					html: match => {
 						const idAndParams = match[ 1 ];
