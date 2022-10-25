@@ -1,0 +1,10 @@
+.ck.ck-character-grid__tiles {
+	width: 420px;
+    display: flex;
+    flex-wrap: wrap;
+    height: 400px;
+    overflow: auto;
+}
+.ck.ck-character-grid__tiles .ck.ck-button__label {
+	font-family: "Segoe UI Emoji", "Segoe UI Symbol", "Segoe UI", "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji", "EmojiOne Color", "Android Emoji";
+}
