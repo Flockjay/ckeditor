@@ -105,18 +105,19 @@ ClassicEditor.defaultConfig = {
 			'bold',
 			'italic',
 			'link',
+			'blockQuote',
 			'bulletedList',
 			'numberedList',
 			'|',
 			'outdent',
 			'indent',
 			'|',
-			'blockQuote',
+			'emoji',
+			'|',
 			'htmlEmbed',
 			'mediaEmbed',
 			'|',
-			'uploadImage',
-			'emoji'
+			'uploadImage'
 		]
 	},
 	image: {
