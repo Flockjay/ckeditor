@@ -41,6 +41,11 @@ import VideoUpload from '@visao/ckeditor5-video/src/videoupload.js';
 import VideoResize from '@visao/ckeditor5-video/src/videoresize.js';
 import VideoStyle from '@visao/ckeditor5-video/src/videostyle.js';
 import VideoInsert from '@visao/ckeditor5-video/src/videoinsert.js';
+import {
+	Emoji, EmojiActivity, EmojiFlags, EmojiFood, EmojiNature, EmojiObjects, EmojiPeople,
+	EmojiPlaces, EmojiSymbols
+} from '@phudak/ckeditor5-emoji/src';
+import '../theme/emoji.css';
 
 export default class ClassicEditor extends ClassicEditorBase {}
 
@@ -79,7 +84,16 @@ ClassicEditor.builtinPlugins = [
 	VideoUpload,
 	VideoResize,
 	VideoStyle,
-	VideoInsert
+	VideoInsert,
+	Emoji,
+	EmojiPeople,
+	EmojiNature,
+	EmojiPlaces,
+	EmojiFood,
+	EmojiActivity,
+	EmojiObjects,
+	EmojiSymbols,
+	EmojiFlags
 ];
 
 // Editor configuration.
@@ -91,13 +105,15 @@ ClassicEditor.defaultConfig = {
 			'bold',
 			'italic',
 			'link',
+			'blockQuote',
 			'bulletedList',
 			'numberedList',
 			'|',
 			'outdent',
 			'indent',
 			'|',
-			'blockQuote',
+			'emoji',
+			'|',
 			'htmlEmbed',
 			'mediaEmbed',
 			'|',
