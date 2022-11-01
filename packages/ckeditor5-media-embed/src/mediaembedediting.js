@@ -155,7 +155,7 @@ export default class MediaEmbedEditing extends Plugin {
 					],
 					html: match => {
 						let url = match.input;
-						if ( this.isPublished( url ) ) {
+						if ( this.isPublished( url ) && !url.includes( 'embedded=true' ) ) {
 							url += '?embedded=true';
 						}
 
@@ -176,7 +176,7 @@ export default class MediaEmbedEditing extends Plugin {
 					],
 					html: match => {
 						let url = match.input;
-						if ( this.isPublished( url ) ) {
+						if ( this.isPublished( url ) && !url.includes( 'embedded=true' ) ) {
 							url += '&embedded=true';
 						}
 
@@ -197,7 +197,7 @@ export default class MediaEmbedEditing extends Plugin {
 					],
 					html: match => {
 						let url = match.input;
-						if ( this.isPublished( url ) ) {
+						if ( this.isPublished( url ) && !url.includes( 'embedded=true' ) ) {
 							url += '?embedded=true';
 						}
 
