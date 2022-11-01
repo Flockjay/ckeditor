@@ -282,7 +282,7 @@ export default class MediaEmbedEditing extends Plugin {
 	}
 
 	isPublished( url ) {
-		return url.includes( '/d/e/' ) || url.includes( '2PACKX' ) || url.includes( 'pub' ) || url.includes( 'pubhtml' );
+		return url.includes( '/d/e/' ) || url.includes( 'pub' ) || url.includes( 'pubhtml' );
 	}
 
 	/**
