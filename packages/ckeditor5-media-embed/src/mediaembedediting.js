@@ -149,16 +149,40 @@ export default class MediaEmbedEditing extends Plugin {
 					url: /^facebook\.com/
 				},
 				{
-					name: 'googleSlides',
+					name: 'googleSheets',
 					url: [
-						/^docs\.google\.com\/presentation\/d\/(\w+)/
+						/^https:\/\/docs\.google\.com\/spreadsheets\/d\/(\w+)/
 					],
 					html: match => {
-						const id = match[ 1 ];
+						let url = match.input;
+						if ( this.isPublished( url ) ) {
+							url += '?embedded=true';
+						}
 
 						return (
 							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
-								`<iframe src="https://docs.google.com/presentation/d/${ id }/embed?loop=false" ` +
+								`<iframe src="${ url }" ` +
+									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
+									'frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
+								'</iframe>' +
+							'</div>'
+						);
+					}
+				},
+				{
+					name: 'googleSlides',
+					url: [
+						/^https:\/\/docs\.google\.com\/presentation\/d\/(\w+)/
+					],
+					html: match => {
+						let url = match.input;
+						if ( this.isPublished( url ) ) {
+							url += '&embedded=true';
+						}
+
+						return (
+							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
+								`<iframe src="${ url }" ` +
 									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
 									'frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
 								'</iframe>' +
@@ -169,18 +193,21 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'googleDocs',
 					url: [
-						/^docs\.google\.com\/document\/d\/(\w+)/
+						/^https:\/\/docs\.google\.com\/document\/d\/(\w+)/
 					],
 					html: match => {
-						const id = match[ 1 ];
+						let url = match.input;
+						if ( this.isPublished( url ) ) {
+							url += '?embedded=true';
+						}
 
 						return (
 							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
-                `<iframe src="https://docs.google.com/document/d/${ id }/pub?embedded=true" ` +
-                  'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
-                  'frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
-                '</iframe>' +
-              '</div>'
+								`<iframe src="${ url }" ` +
+								'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
+								'frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
+								'</iframe>' +
+							'</div>'
 						);
 					}
 				},
@@ -252,6 +279,10 @@ export default class MediaEmbedEditing extends Plugin {
 		 * @member {module:media-embed/mediaregistry~MediaRegistry} #registry
 		 */
 		this.registry = new MediaRegistry( editor.locale, editor.config.get( 'mediaEmbed' ) );
+	}
+
+	isPublished( url ) {
+		return url.includes( '/d/e/' ) || url.includes( '2PACKX' ) || url.includes( 'pub' ) || url.includes( 'pubhtml' );
 	}
 
 	/**
