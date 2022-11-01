@@ -151,7 +151,7 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'googleSheets',
 					url: [
-						/^https:\/\/docs\.google\.com\/spreadsheets\/d\/(\w+)/
+						/^https:\/\/docs\.google\.com\/spreadsheets\/d/
 					],
 					html: match => {
 						let url = match.input;
@@ -172,7 +172,7 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'googleSlides',
 					url: [
-						/^https:\/\/docs\.google\.com\/presentation\/d\/(\w+)/
+						/^https:\/\/docs\.google\.com\/presentation\/d/
 					],
 					html: match => {
 						let url = match.input;
@@ -193,7 +193,7 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'googleDocs',
 					url: [
-						/^https:\/\/docs\.google\.com\/document\/d\/(\w+)/
+						/^https:\/\/docs\.google\.com\/document\/d/
 					],
 					html: match => {
 						let url = match.input;
