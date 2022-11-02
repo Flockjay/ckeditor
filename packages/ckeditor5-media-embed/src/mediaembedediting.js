@@ -149,14 +149,19 @@ export default class MediaEmbedEditing extends Plugin {
 					url: /^facebook\.com/
 				},
 				{
-					name: 'googleSheets',
+					name: 'googleContent', // handles docs, slides, and spreadsheets
 					url: [
-						/^https:\/\/docs\.google\.com\/spreadsheets\/d/
+						/https:\/\/docs\.google\.com\/(?:document|presentation|spreadsheets)\/d\/(.*?)\/edit/,
+						/https:\/\/docs\.google\.com\/(?:document|presentation|spreadsheets)\/d\/e\/(.*?)\/(pub|embed)(?:html)?/
 					],
 					html: match => {
 						let url = match.input;
 						if ( this.isPublished( url ) && !url.includes( 'embedded=true' ) ) {
-							url += '?embedded=true';
+							if ( url.includes( 'presentation' ) ) {
+								url += '&embedded=true';
+							} else {
+								url += '?embedded=true';
+							}
 						}
 
 						return (
@@ -164,48 +169,6 @@ export default class MediaEmbedEditing extends Plugin {
 								`<iframe src="${ url }" ` +
 									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
 									'frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
-								'</iframe>' +
-							'</div>'
-						);
-					}
-				},
-				{
-					name: 'googleSlides',
-					url: [
-						/^https:\/\/docs\.google\.com\/presentation\/d/
-					],
-					html: match => {
-						let url = match.input;
-						if ( this.isPublished( url ) && !url.includes( 'embedded=true' ) ) {
-							url += '&embedded=true';
-						}
-
-						return (
-							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
-								`<iframe src="${ url }" ` +
-									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
-									'frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
-								'</iframe>' +
-							'</div>'
-						);
-					}
-				},
-				{
-					name: 'googleDocs',
-					url: [
-						/^https:\/\/docs\.google\.com\/document\/d/
-					],
-					html: match => {
-						let url = match.input;
-						if ( this.isPublished( url ) && !url.includes( 'embedded=true' ) ) {
-							url += '?embedded=true';
-						}
-
-						return (
-							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
-								`<iframe src="${ url }" ` +
-								'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
-								'frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
 								'</iframe>' +
 							'</div>'
 						);
