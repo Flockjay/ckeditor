@@ -46,11 +46,13 @@ import {
 	EmojiPlaces, EmojiSymbols
 } from '@phudak/ckeditor5-emoji/src';
 import '../theme/emoji.css';
+import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment.js';
 
 export default class ClassicEditor extends ClassicEditorBase {}
 
 // Plugins to include in the build.
 ClassicEditor.builtinPlugins = [
+	Alignment,
 	Essentials,
 	UploadAdapter,
 	Autoformat,
@@ -108,9 +110,14 @@ ClassicEditor.defaultConfig = {
 			'blockQuote',
 			'bulletedList',
 			'numberedList',
+			'insertTable',
 			'|',
 			'outdent',
 			'indent',
+			'alignment:center',
+			'alignment:left',
+			'alignment:right',
+			'alignment:justify',
 			'|',
 			'emoji',
 			'|',
