@@ -117,6 +117,12 @@ The [ckeditor5](https://github.com/ckeditor/ckeditor5) repository is the place t
 
 See the [official contributors' guide](https://ckeditor.com/docs/ckeditor5/latest/framework/guides/contributing/contributing.html) to learn how to contribute your code to the project.
 
+#### Test and Build
+
+- To test the package (For example, ckeditor5-build-classic) run `yarn run manual --files=build-classic` in project root.
+- To build the package (For example, ckeditor5-build-classic) run `yarn build` in the package folder.
+
+
 ### Reporting issues and feature requests
 
 Each repository handles its issues independently. However, it is recommended to report issues in [this repository](https://github.com/ckeditor/ckeditor5/issues) unless you know to which specific repository the issue belongs.
