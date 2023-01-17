@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -131,13 +131,19 @@ export default class Element extends Node {
 		this._customProperties = new Map();
 
 		/**
-		 * Whether an element is allowed inside an AttributeElement and can be wrapped with
-		 * {@link module:engine/view/attributeelement~AttributeElement} by {@link module:engine/view/downcastwriter~DowncastWriter}.
+		 * A list of attribute names that should be rendered in the editing pipeline even though filtering mechanisms
+		 * implemented in the {@link module:engine/view/domconverter~DomConverter} (for instance,
+		 * {@link module:engine/view/domconverter~DomConverter#shouldRenderAttribute}) would filter them out.
 		 *
-		 * @protected
-		 * @member {Boolean}
+		 * These attributes can be specified as an option when the element is created by
+		 * the {@link module:engine/view/downcastwriter~DowncastWriter}. To check whether an unsafe an attribute should
+		 * be permitted, use the {@link #shouldRenderUnsafeAttribute} method.
+		 *
+		 * @private
+		 * @readonly
+		 * @member {Array.<String>}
 		 */
-		this._isAllowedInsideAttributeElement = false;
+		this._unsafeAttributesToRender = [];
 	}
 
 	/**
@@ -158,17 +164,6 @@ export default class Element extends Node {
 	 */
 	get isEmpty() {
 		return this._children.length === 0;
-	}
-
-	/**
-	 * Whether the element is allowed inside an AttributeElement and can be wrapped with
-	 * {@link module:engine/view/attributeelement~AttributeElement} by {@link module:engine/view/downcastwriter~DowncastWriter}.
-	 *
-	 * @readonly
-	 * @type {Boolean}
-	 */
-	get isAllowedInsideAttributeElement() {
-		return this._isAllowedInsideAttributeElement;
 	}
 
 	/**
@@ -335,11 +330,6 @@ export default class Element extends Node {
 			return false;
 		}
 
-		// Check isAllowedInsideAttributeElement property.
-		if ( this.isAllowedInsideAttributeElement != otherElement.isAllowedInsideAttributeElement ) {
-			return false;
-		}
-
 		// Check number of attributes, classes and styles.
 		if ( this._attrs.size !== otherElement._attrs.size || this._classes.size !== otherElement._classes.size ||
 			this._styles.size !== otherElement._styles.size ) {
@@ -468,10 +458,11 @@ export default class Element extends Node {
 	/**
 	 * Returns iterator that contains all style names.
 	 *
+	 * @param {Boolean} [expand=false] Expand shorthand style properties and return all equivalent style representations.
 	 * @returns {Iterable.<String>}
 	 */
-	getStyleNames() {
-		return this._styles.getStyleNames();
+	getStyleNames( expand = false ) {
+		return this._styles.getStyleNames( expand );
 	}
 
 	/**
@@ -572,6 +563,19 @@ export default class Element extends Node {
 	}
 
 	/**
+	 * Decides whether an unsafe attribute is whitelisted and should be rendered in the editing pipeline even though filtering mechanisms
+	 * like {@link module:engine/view/domconverter~DomConverter#shouldRenderAttribute} say it should not.
+	 *
+	 * Unsafe attribute names can be specified when creating an element via {@link module:engine/view/downcastwriter~DowncastWriter}.
+	 *
+	 * @param {String} attributeName The name of the attribute to be checked.
+	 * @returns {Boolean}
+	 */
+	shouldRenderUnsafeAttribute( attributeName ) {
+		return this._unsafeAttributesToRender.includes( attributeName );
+	}
+
+	/**
 	 * Clones provided element.
 	 *
 	 * @protected
@@ -603,8 +607,6 @@ export default class Element extends Node {
 		// We can't define this method in a prototype because it's behavior which
 		// is changed by e.g. toWidget() function from ckeditor5-widget. Perhaps this should be one of custom props.
 		cloned.getFillerOffset = this.getFillerOffset;
-
-		cloned._isAllowedInsideAttributeElement = this.isAllowedInsideAttributeElement;
 
 		return cloned;
 	}

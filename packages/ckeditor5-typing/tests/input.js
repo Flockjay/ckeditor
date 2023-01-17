@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -53,10 +53,10 @@ describe( 'Input feature', () => {
 		return ClassicTestEditor.create( domElement, options )
 			.then( newEditor => {
 				// Mock image feature.
-				newEditor.model.schema.register( 'image', { allowWhere: '$text' } );
+				newEditor.model.schema.register( 'imageBlock', { allowWhere: '$text' } );
 
 				newEditor.conversion.elementToElement( {
-					model: 'image',
+					model: 'imageBlock',
 					view: 'img'
 				} );
 
@@ -80,29 +80,6 @@ describe( 'Input feature', () => {
 		domElement.remove();
 
 		return editor.destroy();
-	} );
-
-	describe( 'isInput()', () => {
-		let input;
-
-		beforeEach( () => {
-			input = editor.plugins.get( 'Input' );
-		} );
-
-		it( 'returns true for batch created using "input" command', done => {
-			model.document.once( 'change:data', ( evt, batch ) => {
-				expect( input.isInput( batch ) ).to.be.true;
-				done();
-			} );
-
-			editor.execute( 'input', { text: 'foo' } );
-		} );
-
-		it( 'returns false for batch not created using "input" command', () => {
-			const batch = model.createBatch();
-
-			expect( input.isInput( batch ) ).to.be.false;
-		} );
 	} );
 
 	describe( 'mutations handling', () => {
@@ -261,7 +238,7 @@ describe( 'Input feature', () => {
 				}
 			] );
 
-			expect( getModelData( model ) ).to.equal( '<paragraph>foo<image></image>x[]</paragraph>' );
+			expect( getModelData( model ) ).to.equal( '<paragraph>foo<imageBlock></imageBlock>x[]</paragraph>' );
 			expect( getViewData( view ) ).to.equal( '<p>foo<img></img>x{}</p>' );
 		} );
 

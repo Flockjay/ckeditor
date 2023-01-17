@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -27,6 +27,7 @@ import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices'
 
 ClassicEditor
 	.create( document.querySelector( '#editor' ), {
+		image: { toolbar: [ 'toggleImageCaption', 'imageTextAlternative' ] },
 		plugins: [ ArticlePluginSet, Strikethrough, Underline, Table, TableToolbar, PageBreak, CloudServices,
 			TableProperties, TableCellProperties, EasyImage, PasteFromOffice, FontColor, FontBackgroundColor, ImageUpload ],
 		toolbar: [ 'heading', '|', 'bold', 'italic', 'strikethrough', 'underline', 'link',

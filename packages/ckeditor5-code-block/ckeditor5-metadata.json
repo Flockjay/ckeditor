@@ -3,7 +3,7 @@
 		{
 			"name": "Code blocks",
 			"className": "CodeBlock",
-			"description": "Allows for inserting and editing blocks of pre–formatted code with the programming language assigned.",
+			"description": "Allows for inserting and editing of blocks of pre–formatted code with the programming language assigned.",
 			"docs": "features/code-blocks.html",
 			"path": "src/codeblock.js",
 			"uiComponents": [
@@ -19,11 +19,14 @@
 				},
 				{
 					"elements": "code",
-					"classes": [
-						"*",
-						"language-*"
-					],
-					"_comment": "By default, the language of the code block is represented as a CSS class prefixed by `language-`. CSS class name can be customized via `config.codeBlock.languages` array."
+					"classes": "language-*",
+					"_comment": "By default, the language of the code block is represented as a CSS class prefixed by `language-`"
+				},
+				{
+					"elements": "code",
+					"classes": "*",
+					"isAlternative": true,
+					"_comment": "The CSS class name can be customized via the `config.codeBlock.languages` array."
 				}
 			]
 		}

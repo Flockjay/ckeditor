@@ -1,17 +1,16 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 import ClassicTestEditor from '@ckeditor/ckeditor5-core/tests/_utils/classictesteditor';
 import { getData as getModelData } from '@ckeditor/ckeditor5-engine/src/dev-utils/model';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-import ImageEditing from '@ckeditor/ckeditor5-image/src/image/imageediting';
+import ImageBlockEditing from '@ckeditor/ckeditor5-image/src/image/imageblockediting';
 import Widget from '@ckeditor/ckeditor5-widget/src/widget';
 
 import { modelTable } from '../_utils/utils';
 import TableEditing from '../../src/tableediting';
-import { assertEqualMarkup } from '@ckeditor/ckeditor5-utils/tests/_utils/utils';
 
 describe( 'upcastTable()', () => {
 	let editor, model;
@@ -19,7 +18,7 @@ describe( 'upcastTable()', () => {
 	beforeEach( () => {
 		return ClassicTestEditor
 			.create( '', {
-				plugins: [ TableEditing, Paragraph, ImageEditing, Widget ]
+				plugins: [ TableEditing, Paragraph, ImageBlockEditing, Widget ]
 			} )
 			.then( newEditor => {
 				editor = newEditor;
@@ -36,7 +35,7 @@ describe( 'upcastTable()', () => {
 	} );
 
 	function expectModel( data ) {
-		assertEqualMarkup( getModelData( model, { withoutSelection: true } ), data );
+		expect( getModelData( model, { withoutSelection: true } ) ).to.equalMarkup( data );
 	}
 
 	it( 'should convert table figure', () => {
@@ -81,13 +80,25 @@ describe( 'upcastTable()', () => {
 		editor.conversion.for( 'upcast' ).add( dispatcher => {
 			dispatcher.on( 'element:table', ( evt, data, conversionApi ) => {
 				conversionApi.consumable.consume( data.viewItem, { name: true } );
-
 				data.modelRange = conversionApi.writer.createRange( data.modelCursor );
 			}, { priority: 'highest' } );
+
+			dispatcher.on( 'element:figure', ( evt, data, conversionApi ) => {
+				expect( conversionApi.consumable.test( data.viewItem, { name: true, classes: 'table' } ) ).to.be.true;
+			}, { priority: 'low' } );
 		} );
+
 		editor.setData( '<figure class="table"><table>xyz</table></figure>' );
 
 		expectModel( '<paragraph>xyz</paragraph>' );
+	} );
+
+	it( 'should consume the figure element before the table conversion starts', () => {
+		editor.data.upcastDispatcher.on( 'element:table', ( evt, data, conversionApi ) => {
+			expect( conversionApi.consumable.test( data.viewItem.parent, { name: true, classes: 'table' } ) ).to.be.false;
+		}, { priority: 'low' } );
+
+		editor.setData( '<figure class="table"><table>xyz</table></figure>' );
 	} );
 
 	it( 'should convert if figure do not have class="table" attribute', () => {
@@ -578,7 +589,7 @@ describe( 'upcastTable()', () => {
 			);
 
 			expectModel( modelTable( [
-				[ '<image src="sample.png"></image>' ]
+				[ '<imageBlock src="sample.png"></imageBlock>' ]
 			] ) );
 		} );
 	} );

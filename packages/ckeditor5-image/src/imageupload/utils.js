@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -69,11 +69,12 @@ export function fetchLocalImage( image ) {
 /**
  * Checks whether a given node is an image element with a local source (Base64 or blob).
  *
+ * @param {module:image/imageutils~ImageUtils} imageUtils
  * @param {module:engine/view/node~Node} node The node to check.
  * @returns {Boolean}
  */
-export function isLocalImage( node ) {
-	if ( !node.is( 'element', 'img' ) || !node.getAttribute( 'src' ) ) {
+export function isLocalImage( imageUtils, node ) {
+	if ( !imageUtils.isInlineImageView( node ) || !node.getAttribute( 'src' ) ) {
 		return false;
 	}
 

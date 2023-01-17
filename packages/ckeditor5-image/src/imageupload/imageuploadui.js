@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -16,7 +16,7 @@ import mediaUploadIcon from '../../theme/icons/upload-media.svg';
 /**
  * The image upload button plugin.
  *
- * For a detailed overview, check the {@glink features/image-upload/image-upload Image upload feature} documentation.
+ * For a detailed overview, check the {@glink features/images/image-upload/image-upload Image upload feature} documentation.
  *
  * Adds the `'uploadImage'` button to the {@link module:ui/componentfactory~ComponentFactory UI component factory}
  * and also the `imageUpload` button as an alias for backward compatibility.

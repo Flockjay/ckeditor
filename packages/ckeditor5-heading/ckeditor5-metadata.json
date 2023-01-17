@@ -32,10 +32,12 @@
 						"h3",
 						"h4"
 					],
-					"implements": "$block"
+					"implements": "$block",
+					"_comment": "The HTML element may contain classes, styles or attributes that are created by other plugins, which alter the <code>`$block`</code> element."
 				},
 				{
 					"elements": "*",
+					"isAlternative": true,
 					"_comment": "The plugin can be configured to return any element name as a heading."
 				}
 			]

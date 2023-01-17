@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -39,7 +39,6 @@ export default class CodeBlockUI extends Plugin {
 		const t = editor.t;
 		const componentFactory = editor.ui.componentFactory;
 		const normalizedLanguageDefs = getNormalizedAndLocalizedLanguageDefinitions( editor );
-		const defaultLanguageDefinition = normalizedLanguageDefs[ 0 ];
 
 		componentFactory.add( 'codeBlock', locale => {
 			const command = editor.commands.get( 'codeBlock' );
@@ -57,7 +56,7 @@ export default class CodeBlockUI extends Plugin {
 
 			splitButtonView.on( 'execute', () => {
 				editor.execute( 'codeBlock', {
-					language: defaultLanguageDefinition.language
+					usePreviousLanguageChoice: true
 				} );
 
 				editor.editing.view.focus();

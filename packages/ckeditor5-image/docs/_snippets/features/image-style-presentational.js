@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -8,14 +8,10 @@
 import { CS_CONFIG } from '@ckeditor/ckeditor5-cloud-services/tests/_utils/cloud-services-config.js';
 
 ClassicEditor
-	.create( document.querySelector( '#snippet-image-style-custom' ), {
-		removePlugins: [ 'LinkImage', 'AutoImage' ],
+	.create( document.querySelector( '#snippet-presentational-image-style-default' ), {
+		removePlugins: [ 'LinkImage', 'AutoImage', 'imageCaption' ],
 		image: {
-			styles: [
-				'alignLeft',
-				'alignCenter',
-				'alignRight'
-			],
+			resizeUnit: '%',
 			resizeOptions: [
 				{
 					name: 'resizeImage:original',
@@ -23,33 +19,32 @@ ClassicEditor
 					value: null
 				},
 				{
-					name: 'resizeImage:50',
+					name: 'resizeImage:40',
 					label: '50%',
 					value: '50'
 				},
 				{
-					name: 'resizeImage:75',
+					name: 'resizeImage:60',
 					label: '75%',
 					value: '75'
 				}
 			],
 			toolbar: [
-				'imageStyle:alignLeft',
-				'imageStyle:alignCenter',
-				'imageStyle:alignRight',
-				'|',
-				'resizeImage',
-				'|',
-				'imageTextAlternative'
+				'imageStyle:inline',
+				'imageStyle:wrapText',
+				'imageStyle:breakText',
+				'resizeImage'
 			]
 		},
-		toolbar: {
-			viewportTopOffset: window.getViewportTopOffsetConfig()
+		ui: {
+			viewportOffset: {
+				top: window.getViewportTopOffsetConfig()
+			}
 		},
 		cloudServices: CS_CONFIG
 	} )
 	.then( editor => {
-		window.editorStyleCustom = editor;
+		window.editorStylePresentational = editor;
 	} )
 	.catch( err => {
 		console.error( err );

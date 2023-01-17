@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -35,7 +35,7 @@ export default class ColorTableView extends View {
 	 * @param {Number} config.columns The number of columns in the color grid.
 	 * @param {String} config.removeButtonLabel The label of the button responsible for removing the color.
 	 * @param {String} config.documentColorsLabel The label for the section with the document colors.
-	 * @param {String} config.documentColorsCount The number of colors in the document colors section inside the color dropdown.
+	 * @param {Number} config.documentColorsCount The number of colors in the document colors section inside the color dropdown.
 	 */
 	constructor( locale, { colors, columns, removeButtonLabel, documentColorsLabel, documentColorsCount } ) {
 		super( locale );
@@ -51,7 +51,7 @@ export default class ColorTableView extends View {
 		/**
 		 * An array with objects representing colors to be displayed in the grid.
 		 *
-		 * @type {Arrray.<module:ui/colorgrid/colorgrid~ColorDefinition>}
+		 * @type {Array.<module:ui/colorgrid/colorgrid~ColorDefinition>}
 		 */
 		this.colorDefinitions = colors;
 
@@ -233,6 +233,16 @@ export default class ColorTableView extends View {
 
 		// Start listening for the keystrokes coming from #element.
 		this.keystrokes.listenTo( this.element );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	destroy() {
+		super.destroy();
+
+		this.focusTracker.destroy();
+		this.keystrokes.destroy();
 	}
 
 	/**

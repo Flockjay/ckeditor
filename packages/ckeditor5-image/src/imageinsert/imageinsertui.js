@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -11,13 +11,11 @@ import { Plugin } from 'ckeditor5/src/core';
 import ImageInsertPanelView from './ui/imageinsertpanelview';
 import { prepareIntegrations } from './utils';
 
-import { isImage } from '../image/utils';
-
 /**
  * The image insert dropdown plugin.
  *
- * For a detailed overview, check the {@glink features/image-upload/image-upload Image upload feature}
- * and {@glink features/image#inserting-images-via-source-url Insert images via source URL} documentation.
+ * For a detailed overview, check the {@glink features/images/image-upload/image-upload Image upload feature}
+ * and {@glink features/images/image-upload/images-inserting#inserting-images-via-source-url Insert images via source URL} documentation.
  *
  * Adds the `'insertImage'` dropdown to the {@link module:ui/componentfactory~ComponentFactory UI component factory}
  * and also the `imageInsert` dropdown as an alias for backward compatibility.
@@ -92,6 +90,7 @@ export default class ImageInsertUI extends Plugin {
 		const insertButtonView = imageInsertView.insertButtonView;
 		const insertImageViaUrlForm = imageInsertView.getIntegration( 'insertImageViaUrl' );
 		const panelView = dropdownView.panelView;
+		const imageUtils = this.editor.plugins.get( 'ImageUtils' );
 
 		dropdownView.bind( 'isEnabled' ).to( command );
 
@@ -107,7 +106,7 @@ export default class ImageInsertUI extends Plugin {
 			if ( dropdownView.isOpen ) {
 				imageInsertView.focus();
 
-				if ( isImage( selectedElement ) ) {
+				if ( imageUtils.isImage( selectedElement ) ) {
 					imageInsertView.imageURLInputValue = selectedElement.getAttribute( 'src' );
 					insertButtonView.label = t( 'Update' );
 					insertImageViaUrlForm.label = t( 'Update image URL' );
@@ -137,7 +136,7 @@ export default class ImageInsertUI extends Plugin {
 		function onSubmit() {
 			const selectedElement = editor.model.document.selection.getSelectedElement();
 
-			if ( isImage( selectedElement ) ) {
+			if ( imageUtils.isImage( selectedElement ) ) {
 				editor.model.change( writer => {
 					writer.setAttribute( 'src', imageInsertView.imageURLInputValue, selectedElement );
 					writer.removeAttribute( 'srcset', selectedElement );
