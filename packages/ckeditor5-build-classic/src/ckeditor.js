@@ -29,6 +29,10 @@ import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
 import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
+import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
+import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperties';
+import TableColumnResize from '@ckeditor/ckeditor5-table/src/tablecolumnresize';
+import TableCaption from '@ckeditor/ckeditor5-table/src/tablecaption';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
 import HTMLEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed';
@@ -42,8 +46,15 @@ import VideoResize from '@visao/ckeditor5-video/src/videoresize.js';
 import VideoStyle from '@visao/ckeditor5-video/src/videostyle.js';
 import VideoInsert from '@visao/ckeditor5-video/src/videoinsert.js';
 import {
-	Emoji, EmojiActivity, EmojiFlags, EmojiFood, EmojiNature, EmojiObjects, EmojiPeople,
-	EmojiPlaces, EmojiSymbols
+	Emoji,
+	EmojiActivity,
+	EmojiFlags,
+	EmojiFood,
+	EmojiNature,
+	EmojiObjects,
+	EmojiPeople,
+	EmojiPlaces,
+	EmojiSymbols
 } from '@phudak/ckeditor5-emoji/src';
 import '../theme/emoji.css';
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment.js';
@@ -76,6 +87,10 @@ ClassicEditor.builtinPlugins = [
 	PasteFromOffice,
 	Table,
 	TableToolbar,
+	TableProperties,
+	TableCellProperties,
+	TableColumnResize,
+	TableCaption,
 	TextTransformation,
 	HTMLEmbed,
 	Mention,
@@ -138,7 +153,26 @@ ClassicEditor.defaultConfig = {
 		]
 	},
 	table: {
-		contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
+		contentToolbar: [
+			'tableColumn',
+			'tableRow',
+			'mergeTableCells',
+			'tableProperties',
+			'tableCellProperties',
+			'toggleTableCaption'
+		],
+		// Configuration of the TableProperties plugin.
+		tableProperties: {
+			// ...
+			defaultProperties: {
+				width: '100%'
+			}
+		},
+
+		// Configuration of the TableCellProperties plugin.
+		tableCellProperties: {
+			// ...
+		}
 	},
 	htmlEmbed: { showPreviews: true },
 	mediaEmbed: { previewsInData: true },
