@@ -62,7 +62,7 @@ export default class ImageUploadUI extends Plugin {
 			} );
 
 			view.buttonView.set( {
-				label: t( 'Insert Media' ),
+				label: t( 'Upload media' ),
 				icon: mediaUploadIcon,
 				tooltip: true
 			} );
