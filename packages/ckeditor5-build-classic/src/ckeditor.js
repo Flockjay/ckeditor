@@ -40,12 +40,12 @@ import HTMLEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed';
 import Mention from '@ckeditor/ckeditor5-mention/src/mention';
 import MentionUI from '@ckeditor/ckeditor5-mention/src/mentionui';
 import MentionEditing from '@ckeditor/ckeditor5-mention/src/mentionediting';
-import VideoToolbar from '@visao/ckeditor5-video/src/videotoolbar.js';
-import Video from '@visao/ckeditor5-video/src/video.js';
-import VideoUpload from '@visao/ckeditor5-video/src/videoupload.js';
-import VideoResize from '@visao/ckeditor5-video/src/videoresize.js';
-import VideoStyle from '@visao/ckeditor5-video/src/videostyle.js';
-import VideoInsert from '@visao/ckeditor5-video/src/videoinsert.js';
+import VideoToolbar from '@flockjay/ckeditor5-video/src/videotoolbar.js';
+import Video from '@flockjay/ckeditor5-video/src/video.js';
+import VideoUpload from '@flockjay/ckeditor5-video/src/videoupload.js';
+import VideoResize from '@flockjay/ckeditor5-video/src/videoresize.js';
+import VideoStyle from '@flockjay/ckeditor5-video/src/videostyle.js';
+import VideoInsert from '@flockjay/ckeditor5-video/src/videoinsert.js';
 import {
 	Emoji,
 	EmojiActivity,
