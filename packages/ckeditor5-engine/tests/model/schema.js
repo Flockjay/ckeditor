@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -1070,13 +1070,13 @@ describe( 'Schema', () => {
 				inheritAllFrom: '$block',
 				allowIn: 'div'
 			} );
-			schema.register( 'image', {
+			schema.register( 'imageBlock', {
 				inheritAllFrom: '$block',
 				allowIn: 'widget'
 			} );
 			schema.register( 'caption', {
 				inheritAllFrom: '$block',
-				allowIn: 'image'
+				allowIn: 'imageBlock'
 			} );
 		} );
 
@@ -1105,7 +1105,7 @@ describe( 'Schema', () => {
 			schema.extend( 'article', { isLimit: true } );
 			schema.extend( 'section', { isLimit: true } );
 
-			model.enqueueChange( 'transparent', () => {
+			model.enqueueChange( { isUndoable: false }, () => {
 				setData( model, '<div><section><article>[foo</article><article>bar]</article></section></div>' );
 
 				const section = root.getNodeByPath( [ 0, 0 ] );
@@ -1128,9 +1128,9 @@ describe( 'Schema', () => {
 				'</article>' +
 				'</section>' +
 				'<widget>' +
-				'<image>' +
+				'<imageBlock>' +
 				'<caption>b[a]r</caption>' +
-				'</image>' +
+				'</imageBlock>' +
 				'</widget>' +
 				'</div>'
 			);
@@ -1158,9 +1158,9 @@ describe( 'Schema', () => {
 		it( 'works fine with multi-range selections if the first range has the root element as a limit element', () => {
 			setData(
 				model,
-				'<image>' +
+				'<imageBlock>' +
 				'<caption>[Foo</caption>' +
-				'</image>' +
+				'</imageBlock>' +
 				'<article>' +
 				'<paragraph>Paragraph in article]</paragraph>' +
 				'</article>' +
@@ -1176,9 +1176,9 @@ describe( 'Schema', () => {
 				model,
 				'<paragraph>Paragraph item 1</paragraph>' +
 				'<paragraph>Paragraph [item 2]</paragraph>' +
-				'<image>' +
+				'<imageBlock>' +
 				'<caption>[Foo</caption>' +
-				'</image>' +
+				'</imageBlock>' +
 				'<article>' +
 				'<paragraph>Paragraph in article]</paragraph>' +
 				'</article>'
@@ -1794,7 +1794,7 @@ describe( 'Schema', () => {
 			it( testName, () => {
 				let range;
 
-				model.enqueueChange( 'transparent', () => {
+				model.enqueueChange( { isUndoable: false }, () => {
 					setData( model, data );
 					range = schema.getNearestSelectionRange( selection.anchor, direction );
 				} );
@@ -1905,7 +1905,7 @@ describe( 'Schema', () => {
 			schema.register( 'div', {
 				inheritAllFrom: '$block'
 			} );
-			schema.register( 'image', {
+			schema.register( 'imageBlock', {
 				isObject: true
 			} );
 			schema.extend( '$block', {
@@ -1915,10 +1915,10 @@ describe( 'Schema', () => {
 
 		it( 'should filter out disallowed attributes from given nodes', () => {
 			schema.extend( '$text', { allowAttributes: 'a' } );
-			schema.extend( 'image', { allowAttributes: 'b' } );
+			schema.extend( 'imageBlock', { allowAttributes: 'b' } );
 
 			const text = new Text( 'foo', { a: 1, b: 1 } );
-			const image = new Element( 'image', { a: 1, b: 1 } );
+			const image = new Element( 'imageBlock', { a: 1, b: 1 } );
 
 			root._appendChild( [ text, image ] );
 
@@ -1933,7 +1933,7 @@ describe( 'Schema', () => {
 				expect( writer.batch.operations[ 1 ] ).to.instanceof( AttributeOperation );
 
 				expect( getData( model, { withoutSelection: true } ) )
-					.to.equal( '<$text a="1">foo</$text><image b="1"></image>' );
+					.to.equal( '<$text a="1">foo</$text><imageBlock b="1"></imageBlock>' );
 			} );
 		} );
 
@@ -1965,12 +1965,12 @@ describe( 'Schema', () => {
 				}
 
 				// Allow 'a' on div>image.
-				if ( ctx.endsWith( 'div image' ) && attributeName == 'a' ) {
+				if ( ctx.endsWith( 'div imageBlock' ) && attributeName == 'a' ) {
 					return true;
 				}
 
-				// Allow 'b' on div>paragraph>image.
-				if ( ctx.endsWith( 'div paragraph image' ) && attributeName == 'b' ) {
+				// Allow 'b' on div>paragraph>imageBlock.
+				if ( ctx.endsWith( 'div paragraph imageBlock' ) && attributeName == 'b' ) {
 					return true;
 				}
 
@@ -1982,8 +1982,8 @@ describe( 'Schema', () => {
 
 			const foo = new Text( 'foo', { a: 1, b: 1 } );
 			const bar = new Text( 'bar', { a: 1, b: 1 } );
-			const imageInDiv = new Element( 'image', { a: 1, b: 1 } );
-			const imageInParagraph = new Element( 'image', { a: 1, b: 1 } );
+			const imageInDiv = new Element( 'imageBlock', { a: 1, b: 1 } );
+			const imageInParagraph = new Element( 'imageBlock', { a: 1, b: 1 } );
 			const paragraph = new Element( 'paragraph', { a: 1, b: 1 }, [ foo, imageInParagraph ] );
 			const div = new Element( 'div', [], [ paragraph, bar, imageInDiv ] );
 
@@ -1997,10 +1997,10 @@ describe( 'Schema', () => {
 						'<div>' +
 							'<paragraph a="1">' +
 								'<$text b="1">foo</$text>' +
-								'<image b="1"></image>' +
+								'<imageBlock b="1"></imageBlock>' +
 							'</paragraph>' +
 							'<$text a="1">bar</$text>' +
-							'<image a="1"></image>' +
+							'<imageBlock a="1"></imageBlock>' +
 						'</div>'
 					);
 			} );
@@ -2052,6 +2052,157 @@ describe( 'Schema', () => {
 				expect( getData( model, { withoutSelection: true } ) )
 					.to.equal( '<div><$text a="1">foo</$text>bar<$text a="1">biz</$text></div>' );
 			} );
+		} );
+	} );
+
+	describe( 'getAttributesWithProperty()', () => {
+		let model, doc, root;
+
+		beforeEach( () => {
+			model = new Model();
+			doc = model.document;
+			root = doc.createRoot();
+			schema = model.schema;
+
+			schema.register( 'paragraph', {
+				inheritAllFrom: '$block'
+			} );
+		} );
+
+		it( 'should get an attribute with given property', () => {
+			schema.extend( '$text', { allowAttributes: 'a' } );
+
+			schema.setAttributeProperties( 'a', {
+				isFooable: true
+			} );
+
+			const text = new Text( 'foo', { a: 1 } );
+
+			root._appendChild( text );
+
+			const attributesWithProperty = schema.getAttributesWithProperty( root.getChild( 0 ), 'isFooable' );
+
+			expect( attributesWithProperty ).to.deep.equal( { a: 1 } );
+		} );
+
+		it( 'should get attributes with given property', () => {
+			schema.extend( '$text', { allowAttributes: [ 'a', 'b' ] } );
+
+			schema.setAttributeProperties( 'a', {
+				isFooable: true
+			} );
+
+			schema.setAttributeProperties( 'b', {
+				isFooable: true
+			} );
+
+			const text = new Text( 'foo', { a: 1, b: 2 } );
+
+			root._appendChild( text );
+
+			const attributesWithProperty = schema.getAttributesWithProperty( root.getChild( 0 ), 'isFooable' );
+
+			expect( attributesWithProperty ).to.deep.equal( { a: 1, b: 2 } );
+		} );
+
+		it( 'should get an attribute with given property that matches desired value', () => {
+			schema.extend( '$text', { allowAttributes: [ 'a' ] } );
+
+			schema.setAttributeProperties( 'a', {
+				isFooable: 'yes'
+			} );
+
+			const text = new Text( 'foo', { a: 1 } );
+
+			root._appendChild( text );
+
+			const attributesWithProperty = schema.getAttributesWithProperty( root.getChild( 0 ), 'isFooable', 'yes' );
+
+			expect( attributesWithProperty ).to.deep.equal( { a: 1 } );
+		} );
+
+		it( 'should get attributes with given property that match desired value', () => {
+			schema.extend( '$text', { allowAttributes: [ 'a', 'b' ] } );
+
+			schema.setAttributeProperties( 'a', {
+				isFooable: 'yes'
+			} );
+
+			schema.setAttributeProperties( 'b', {
+				isFooable: 'yes'
+			} );
+
+			const text = new Text( 'foo', { a: 1, b: 2 } );
+
+			root._appendChild( text );
+
+			const attributesWithProperty = schema.getAttributesWithProperty( root.getChild( 0 ), 'isFooable', 'yes' );
+
+			expect( attributesWithProperty ).to.deep.equal( { a: 1, b: 2 } );
+		} );
+
+		it( 'should not return an attribute if it has properties but not the one being lookied for', () => {
+			schema.extend( '$text', { allowAttributes: [ 'a' ] } );
+
+			schema.setAttributeProperties( 'a', {
+				isFooable: true
+			} );
+
+			const text = new Text( 'foo', { a: 1 } );
+
+			root._appendChild( text );
+
+			const attributesWithProperty = schema.getAttributesWithProperty( root.getChild( 0 ), 'isBarable' );
+
+			expect( attributesWithProperty ).to.deep.equal( { } );
+		} );
+
+		it( 'should not return an attribute if it does not have given property', () => {
+			schema.extend( '$text', { allowAttributes: [ 'a' ] } );
+
+			const text = new Text( 'foo', { a: 1 } );
+
+			root._appendChild( text );
+
+			const attributesWithProperty = schema.getAttributesWithProperty( root.getChild( 0 ), 'isFooable' );
+
+			expect( attributesWithProperty ).to.deep.equal( { } );
+		} );
+
+		it( 'should not return an attribute if value does not match', () => {
+			schema.extend( '$text', { allowAttributes: [ 'a' ] } );
+
+			schema.setAttributeProperties( 'a', {
+				isFooable: 'no'
+			} );
+
+			const text = new Text( 'foo', { a: 1 } );
+
+			root._appendChild( text );
+
+			const attributesWithProperty = schema.getAttributesWithProperty( root.getChild( 0 ), 'isFooable', 'yes' );
+
+			expect( attributesWithProperty ).to.deep.equal( { } );
+		} );
+
+		it( 'should return only an attribute that matches value', () => {
+			schema.extend( '$text', { allowAttributes: [ 'a', 'b' ] } );
+
+			schema.setAttributeProperties( 'a', {
+				isFooable: 'no'
+			} );
+
+			schema.setAttributeProperties( 'b', {
+				isFooable: 'yes'
+			} );
+
+			const text = new Text( 'foo', { a: 1, b: 2 } );
+
+			root._appendChild( text );
+
+			const attributesWithProperty = schema.getAttributesWithProperty( root.getChild( 0 ), 'isFooable', 'yes' );
+
+			expect( attributesWithProperty ).to.deep.equal( { b: 2 } );
 		} );
 	} );
 
@@ -2984,7 +3135,7 @@ describe( 'Schema', () => {
 				} );
 			},
 			() => {
-				schema.register( 'image', {
+				schema.register( 'imageBlock', {
 					allowWhere: '$block',
 					allowAttributes: [ 'src', 'alt' ],
 					isObject: true,
@@ -2993,7 +3144,7 @@ describe( 'Schema', () => {
 			},
 			() => {
 				schema.register( 'caption', {
-					allowIn: 'image',
+					allowIn: 'imageBlock',
 					allowContentOf: '$block',
 					isLimit: true
 				} );
@@ -3055,11 +3206,11 @@ describe( 'Schema', () => {
 				new Element( 'blockQuote', null, [
 					new Element( 'paragraph', null, 'foo' ),
 					new Element( 'listItem', { listType: 'x', listIndent: 0 }, 'foo' ),
-					new Element( 'image', null, [
+					new Element( 'imageBlock', null, [
 						new Element( 'caption', null, 'foo' )
 					] )
 				] ),
-				new Element( 'image', null, [
+				new Element( 'imageBlock', null, [
 					new Element( 'caption', null, 'foo' )
 				] )
 			] );
@@ -3108,7 +3259,7 @@ describe( 'Schema', () => {
 		} );
 
 		it( 'passes $root>blockQuote>image', () => {
-			expect( schema.checkChild( r1bQ, 'image' ) ).to.be.true;
+			expect( schema.checkChild( r1bQ, 'imageBlock' ) ).to.be.true;
 		} );
 
 		it( 'passes $root>blockQuote>image>caption', () => {
@@ -3120,7 +3271,7 @@ describe( 'Schema', () => {
 		} );
 
 		it( 'passes $root>image', () => {
-			expect( schema.checkChild( root1, 'image' ) ).to.be.true;
+			expect( schema.checkChild( root1, 'imageBlock' ) ).to.be.true;
 		} );
 
 		it( 'passes $root>image>caption', () => {
@@ -3165,7 +3316,7 @@ describe( 'Schema', () => {
 		} );
 
 		it( 'rejects $root>paragraph>image', () => {
-			expect( schema.checkChild( r1p1, 'image' ) ).to.be.false;
+			expect( schema.checkChild( r1p1, 'imageBlock' ) ).to.be.false;
 		} );
 
 		it( 'rejects $root>paragraph>caption', () => {
@@ -3177,7 +3328,7 @@ describe( 'Schema', () => {
 		} );
 
 		it( 'rejects $root>blockQuote>caption', () => {
-			expect( schema.checkChild( r1p1, 'image' ) ).to.be.false;
+			expect( schema.checkChild( r1p1, 'imageBlock' ) ).to.be.false;
 		} );
 
 		it( 'rejects $root>blockQuote>$text', () => {
@@ -3308,10 +3459,10 @@ describe( 'Schema', () => {
 		} );
 
 		it( 'image is block object', () => {
-			expect( schema.isLimit( 'image' ) ).to.be.true;
-			expect( schema.isBlock( 'image' ) ).to.be.true;
-			expect( schema.isObject( 'image' ) ).to.be.true;
-			expect( schema.isInline( 'image' ) ).to.be.false;
+			expect( schema.isLimit( 'imageBlock' ) ).to.be.true;
+			expect( schema.isBlock( 'imageBlock' ) ).to.be.true;
+			expect( schema.isObject( 'imageBlock' ) ).to.be.true;
+			expect( schema.isInline( 'imageBlock' ) ).to.be.false;
 		} );
 
 		it( 'caption is limit', () => {

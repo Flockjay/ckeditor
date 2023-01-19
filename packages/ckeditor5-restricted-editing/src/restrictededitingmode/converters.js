@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -79,7 +79,7 @@ export function resurrectCollapsedMarkerPostFixer( editor ) {
 		let changeApplied = false;
 
 		for ( const { name, data } of editor.model.document.differ.getChangedMarkers() ) {
-			if ( name.startsWith( 'restrictedEditingException' ) && data.newRange.root.rootName == '$graveyard' ) {
+			if ( name.startsWith( 'restrictedEditingException' ) && data.newRange && data.newRange.root.rootName == '$graveyard' ) {
 				writer.updateMarker( name, {
 					range: writer.createRange( writer.createPositionAt( data.oldRange.start ) )
 				} );
@@ -110,7 +110,7 @@ export function extendMarkerOnTypingPostFixer( editor ) {
 			}
 		}
 
-		return false;
+		return changeApplied;
 	};
 }
 

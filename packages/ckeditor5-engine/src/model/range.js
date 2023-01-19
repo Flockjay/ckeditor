@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -25,8 +25,9 @@ export default class Range {
 	/**
 	 * Creates a range spanning from `start` position to `end` position.
 	 *
-	 * @param {module:engine/model/position~Position} start Start position.
-	 * @param {module:engine/model/position~Position} [end] End position. If not set, range will be collapsed at `start` position.
+	 * @param {module:engine/model/position~Position} start The start position.
+	 * @param {module:engine/model/position~Position} [end] The end position. If not set,
+	 * the range will be collapsed at the `start` position.
 	 */
 	constructor( start, end = null ) {
 		/**
@@ -445,7 +446,7 @@ export default class Range {
 	 * You may specify additional options for the tree walker. See {@link module:engine/model/treewalker~TreeWalker} for
 	 * a full list of available options.
 	 *
-	 * @param {Object} options Object with configuration options. See {@link module:engine/model/treewalker~TreeWalker}.
+	 * @param {Object} [options] Object with configuration options. See {@link module:engine/model/treewalker~TreeWalker}.
 	 * @returns {Iterable.<module:engine/model/item~Item>}
 	 */
 	* getItems( options = {} ) {

@@ -1,4 +1,4 @@
-import { findOptimalInsertionPosition } from 'ckeditor5/src/widget';
+import { findOptimalInsertionRange } from 'ckeditor5/src/widget';
 import { mimeTypes } from './mimeTypes';
 
 /* global fetch, File */
@@ -81,7 +81,7 @@ function createFileFromBlob( blob, filename, mimeType ) {
 
 export function insertFileLink( writer, model, attributes = {}, file ) {
 	const selection = model.document.selection;
-	const insertAtSelection = findOptimalInsertionPosition( selection, model );
+	const insertAtSelection = findOptimalInsertionRange( selection, model );
 
 	const linkedText = writer.createText( file.name, attributes );
 	model.insertContent( linkedText, insertAtSelection );

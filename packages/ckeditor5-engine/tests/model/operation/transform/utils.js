@@ -1,11 +1,11 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 import ModelTestEditor from '@ckeditor/ckeditor5-core/tests/_utils/modeltesteditor';
 
-import ListEditing from '@ckeditor/ckeditor5-list/src/listediting';
+import ListEditing from '@ckeditor/ckeditor5-list/src/list/listediting';
 import BoldEditing from '@ckeditor/ckeditor5-basic-styles/src/bold/boldediting';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 import Typing from '@ckeditor/ckeditor5-typing/src/typing';
@@ -13,7 +13,7 @@ import UndoEditing from '@ckeditor/ckeditor5-undo/src/undoediting';
 import BlockQuoteEditing from '@ckeditor/ckeditor5-block-quote/src/blockquoteediting';
 import HeadingEditing from '@ckeditor/ckeditor5-heading/src/headingediting';
 import TableEditing from '@ckeditor/ckeditor5-table/src/tableediting';
-import ImageEditing from '@ckeditor/ckeditor5-image/src/image/imageediting';
+import ImageBlockEditing from '@ckeditor/ckeditor5-image/src/image/imageblockediting';
 
 import { getData, parse } from '../../../../src/dev-utils/model';
 import { transformSets } from '../../../../src/model/operation/transform';
@@ -40,7 +40,7 @@ export class Client {
 			// Block plugins are needed for proper data serializing.
 			// BoldEditing is needed for bold command.
 			plugins: [
-				Typing, Paragraph, ListEditing, UndoEditing, BlockQuoteEditing, HeadingEditing, BoldEditing, TableEditing, ImageEditing
+				Typing, Paragraph, ListEditing, UndoEditing, BlockQuoteEditing, HeadingEditing, BoldEditing, TableEditing, ImageBlockEditing
 			]
 		} ).then( editor => {
 			this.editor = editor;
@@ -335,7 +335,7 @@ export function syncClients() {
 				remoteOperationsTransformed = transformSets( remoteOperations, localOperations, options ).operationsA;
 			}
 
-			localClient.editor.model.enqueueChange( 'transparent', writer => {
+			localClient.editor.model.enqueueChange( { isUndoable: false }, writer => {
 				for ( const operation of remoteOperationsTransformed ) {
 					writer.batch.addOperation( operation );
 					localClient.editor.model.applyOperation( operation );

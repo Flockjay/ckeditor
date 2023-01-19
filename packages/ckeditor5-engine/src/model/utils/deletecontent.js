@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -45,7 +45,7 @@ import DocumentSelection from '../documentselection';
  * @param {Boolean} [options.doNotAutoparagraph=false] Whether to create a paragraph if after content deletion selection is moved
  * to a place where text cannot be inserted.
  *
- * For example `<paragraph>x</paragraph>[<image src="foo.jpg"></image>]` will become:
+ * For example `<paragraph>x</paragraph>[<imageBlock src="foo.jpg"></imageBlock>]` will become:
  *
  * * `<paragraph>x</paragraph><paragraph>[]</paragraph>` with the option disabled (`doNotAutoparagraph == false`)
  * * `<paragraph>x</paragraph>[]` with the option enabled (`doNotAutoparagraph == true`).
@@ -53,9 +53,9 @@ import DocumentSelection from '../documentselection';
  * If you use this option you need to make sure to handle invalid selections yourself or leave
  * them to the selection post-fixer (may not always work).
  *
- * **Note:** if there is no valid position for the selection, the paragraph will always be created:
+ * **Note:** If there is no valid position for the selection, the paragraph will always be created:
  *
- * `[<image src="foo.jpg"></image>]` -> `<paragraph>[]</paragraph>`.
+ * `[<imageBlock src="foo.jpg"></imageBlock>]` -> `<paragraph>[]</paragraph>`.
  */
 export default function deleteContent( model, selection, options = {} ) {
 	if ( selection.isCollapsed ) {
@@ -78,6 +78,17 @@ export default function deleteContent( model, selection, options = {} ) {
 			replaceEntireContentWithParagraph( writer, selection, schema );
 
 			return;
+		}
+
+		// Collect attributes to copy in case of autoparagraphing.
+		const attributesForAutoparagraph = {};
+
+		if ( !options.doNotAutoparagraph ) {
+			const selectedElement = selection.getSelectedElement();
+
+			if ( selectedElement ) {
+				Object.assign( attributesForAutoparagraph, schema.getAttributesWithProperty( selectedElement, 'copyOnReplace', true ) );
+			}
 		}
 
 		// Get the live positions for the range adjusted to span only blocks selected from the user perspective.
@@ -114,7 +125,7 @@ export default function deleteContent( model, selection, options = {} ) {
 		// Check if a text is allowed in the new container. If not, try to create a new paragraph (if it's allowed here).
 		// If autoparagraphing is off, we assume that you know what you do so we leave the selection wherever it was.
 		if ( !options.doNotAutoparagraph && shouldAutoparagraph( schema, startPosition ) ) {
-			insertParagraph( writer, startPosition, selection );
+			insertParagraph( writer, startPosition, selection, attributesForAutoparagraph );
 		}
 
 		startPosition.detach();
@@ -150,13 +161,13 @@ function getLivePositionsForSelectedBlocks( range ) {
 
 			const newEndPosition = selection.getLastPosition();
 
-			// For such model and selection:
-			//     <paragraph>A[</paragraph><image></image><paragraph>]B</paragraph>
+			// For such a model and selection:
+			//     <paragraph>A[</paragraph><imageBlock></imageBlock><paragraph>]B</paragraph>
 			//
-			// After modifySelection() we would end up with this:
-			//     <paragraph>A[</paragraph>]<image></image><paragraph>B</paragraph>
+			// After modifySelection(), we would end up with this:
+			//     <paragraph>A[</paragraph>]<imageBlock></imageBlock><paragraph>B</paragraph>
 			//
-			// So we need to check if there is no content in the skipped range (because we want to include the <image>).
+			// So we need to check if there is no content in the skipped range (because we want to include the <imageBlock>).
 			const skippedRange = model.createRange( newEndPosition, endPosition );
 
 			if ( !model.hasContent( skippedRange, { ignoreMarkers: true } ) ) {
@@ -482,8 +493,10 @@ function isCrossingLimitElement( leftPos, rightPos, schema ) {
 	return true;
 }
 
-function insertParagraph( writer, position, selection ) {
+function insertParagraph( writer, position, selection, attributes = {} ) {
 	const paragraph = writer.createElement( 'paragraph' );
+
+	writer.model.schema.setAllowedAttributes( paragraph, attributes, writer );
 
 	writer.insert( paragraph, position );
 
