@@ -197,7 +197,9 @@ export default class MediaEmbedEditing extends Plugin {
 					name: 'fjVideo',
 					url: [
 						/^(https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/fjvideo-([\w-]+)).([\w-]+)/,
-						/^(https:\/\/cdn.flockjay.com\/fjvideo-([\w-]+)).([\w-]+)/
+						/^(https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/[\w+]+%[0-9A-Fa-f]{2}fjvideo-([\w-]+)).([\w-]+)/,
+						/^(https:\/\/cdn.flockjay.com\/fjvideo-([\w-]+)).([\w-]+)/,
+						/^(https:\/\/cdn.flockjay.com\/[\w+]+%[0-9A-Fa-f]{2}fjvideo-([\w-]+)).([\w-]+)/
 					],
 					html: match => {
 						const url = match[ 0 ];
