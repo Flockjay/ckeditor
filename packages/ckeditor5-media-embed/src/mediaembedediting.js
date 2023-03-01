@@ -196,14 +196,14 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'fjVideo',
 					url: [
-						/^(https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/(?:[\w+]+(?:%[0-9A-Fa-f]{2}|\/))?fjvideo-([\w-]+)).([\w-]+)/,
-  					/^(https:\/\/cdn.flockjay.com\/(?:[\w+]+(?:%[0-9A-Fa-f]{2}|\/))?fjvideo-([\w-]+)).([\w-]+)/
+						/^https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/((?:[\w+]+(?:%[0-9A-Fa-f]{2}|\/))?fjvideo-[\w-]+).([\w-]+)/,
+  					/^https:\/\/cdn.flockjay.com\/((?:[\w+]+(?:%[0-9A-Fa-f]{2}|\/))?fjvideo-[\w-]+).([\w-]+)/
 					],
 					html: match => {
 						const url = match[ 0 ];
-						const ext = match[ 3 ];
+						const ext = match[ 2 ];
 						const poster = ext === 'mp4' ? `poster="${ match[ 1 ] }-thumbnail.jpg" ` : '';
-						const id = `fjvideo-${ match[ 2 ] }`;
+						const id = match[ 1 ];
 
 						return (
 							'<div style="position: relative; background-color: black; text-align: center;">' +
