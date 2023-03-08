@@ -243,7 +243,7 @@ export default class MediaEmbedEditing extends Plugin {
 					html: match => {
 						const domain = match[ 1 ];
 						const category = match[ 2 ];
-						let contentType, id;
+						let contentType, contentId;
 						if ( category === 'classroom' ) {
 							const params = new URL( match[ 0 ] ).searchParams;
 							const postId = params.get( 'postId' );
@@ -254,19 +254,19 @@ export default class MediaEmbedEditing extends Plugin {
 
 							if ( playlistId ) {
 								contentType = 'playlist';
-								id = playlistId;
+								contentId = playlistId;
 							} else if ( promptId ) {
 								contentType = 'prompt';
-								id = promptId;
+								contentId = promptId;
 							} else if ( postId ) {
 								contentType = 'feedpost';
-								id = postId;
+								contentId = postId;
 							} else if ( assetId ) {
 								contentType = 'asset';
-								id = assetId;
+								contentId = assetId;
 							} else if ( callId ) {
 								contentType = 'gongcall';
-								id = callId;
+								contentId = callId;
 							}
 						} else {
 							if ( category === 'learning' ) {
@@ -276,9 +276,9 @@ export default class MediaEmbedEditing extends Plugin {
 							} else if ( category === 'feed/opportunities' ) {
 								contentType = 'opportunity';
 							}
-							id = match[ 3 ];
+							contentId = match[ 3 ];
 						}
-						const url = `${ domain }/embed/?id=${ id }&contentType=${ contentType }`;
+						const url = `${ domain }/embed/?contentId=${ contentId }&contentType=${ contentType }`;
 
 						return (
 							'<div style="position: relative; height: 216px;">' +
