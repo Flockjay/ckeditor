@@ -275,6 +275,8 @@ export default class MediaEmbedEditing extends Plugin {
 								contentType = 'hub';
 							} else if ( category === 'feed/opportunities' ) {
 								contentType = 'opportunity';
+							} else {
+								contentType = 'course';
 							}
 							contentId = match[ 3 ];
 						}
