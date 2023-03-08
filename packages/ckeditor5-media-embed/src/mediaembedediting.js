@@ -202,7 +202,7 @@ export default class MediaEmbedEditing extends Plugin {
 					html: match => {
 						const url = match[ 0 ];
 						const ext = match[ 2 ];
-						const poster = ext === 'mp4' ? `poster="${ url.replace( `.${ext}`, '-thumbnail.jpg' )}" ` : '';
+						const poster = ext === 'mp4' ? `poster="${ url.replace( `.${ ext }`, '-thumbnail.jpg' ) }" ` : '';
 						const id = match[ 1 ];
 
 						return (
@@ -237,8 +237,8 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'FJLink',
 					url: [
-						/((?:.)+amplifyapp.com)\/(course|learning|classroom)\/([\w=?&-]+)(\/view)?/,
-						/((?:.)+flockjay.com)\/(course|learning|classroom)\/([\w=?&-]+)(\/view)?/
+						/((?:.)+amplifyapp.com)\/(course|learning|hubs|classroom|feed\/opportunities)\/([\w=?&-]+)(\/view)?/,
+						/((?:.)+flockjay.com)\/(course|learning|hubs|classroom|feed\/opportunities)\/([\w=?&-]+)(\/view)?/
 					],
 					html: match => {
 						const domain = match[ 1 ];
@@ -250,6 +250,7 @@ export default class MediaEmbedEditing extends Plugin {
 							const assetId = params.get( 'assetId' );
 							const playlistId = params.get( 'playlistId' );
 							const promptId = params.get( 'promptId' );
+							const callId = params.get( 'callId' );
 
 							if ( playlistId ) {
 								contentType = 'playlist';
@@ -263,9 +264,18 @@ export default class MediaEmbedEditing extends Plugin {
 							} else if ( assetId ) {
 								contentType = 'asset';
 								id = assetId;
+							} else if ( callId ) {
+								contentType = 'gongcall';
+								id = callId;
 							}
 						} else {
-							contentType = category === 'learning' ? 'learningpath' : 'course';
+							if ( category === 'learning' ) {
+								contentType = 'learningpath';
+							} else if ( category === 'hubs' ) {
+								contentType = 'hub';
+							} else if ( category === 'feed/opportunities' ) {
+								contentType = 'opportunity';
+							}
 							id = match[ 3 ];
 						}
 						const url = `${ domain }/embed/?id=${ id }&contentType=${ contentType }`;
