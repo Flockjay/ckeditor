@@ -233,6 +233,52 @@ export default class MediaEmbedEditing extends Plugin {
 							'</div>'
 						);
 					}
+				},
+				{
+					name: 'FJLink',
+					url: [
+						/((?:.)+amplifyapp.com)\/(course|learning|classroom)\/([\w=?&-]+)(\/view)?/,
+						/((?:.)+flockjay.com)\/(course|learning|classroom)\/([\w=?&-]+)(\/view)?/
+					],
+					html: match => {
+						const domain = match[ 1 ];
+						const category = match[ 2 ];
+						let contentType, id;
+						if ( category === 'classroom' ) {
+							const params = new URL( match[ 0 ] ).searchParams;
+							const postId = params.get( 'postId' );
+							const assetId = params.get( 'assetId' );
+							const playlistId = params.get( 'playlistId' );
+							const promptId = params.get( 'promptId' );
+
+							if ( playlistId ) {
+								contentType = 'playlist';
+								id = playlistId;
+							} else if ( promptId ) {
+								contentType = 'prompt';
+								id = promptId;
+							} else if ( postId ) {
+								contentType = 'feedpost';
+								id = postId;
+							} else if ( assetId ) {
+								contentType = 'asset';
+								id = assetId;
+							}
+						} else {
+							contentType = category === 'learning' ? 'learningpath' : 'course';
+							id = match[ 3 ];
+						}
+						const url = `${ domain }/embed/?id=${ id }&contentType=${ contentType }`;
+
+						return (
+							'<div style="position: relative; height: 216px;">' +
+								`<iframe src="${ url }"` +
+									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
+									'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>' +
+								'</iframe>' +
+							'</div>'
+						);
+					}
 				}
 			]
 		} );
