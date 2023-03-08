@@ -202,7 +202,7 @@ export default class MediaEmbedEditing extends Plugin {
 					html: match => {
 						const url = match[ 0 ];
 						const ext = match[ 2 ];
-						const poster = ext === 'mp4' ? `poster="${ url.replace( `.${ext}`, '-thumbnail.jpg' )}" ` : '';
+						const poster = ext === 'mp4' ? `poster="${ url.replace( `.${ ext }`, '-thumbnail.jpg' ) }" ` : '';
 						const id = match[ 1 ];
 
 						return (
@@ -229,6 +229,63 @@ export default class MediaEmbedEditing extends Plugin {
 								`<iframe src="https://app.gong.io/embedded-call?call-id=${ idAndParams }" ` +
 									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
 									'frameborder="0">' +
+								'</iframe>' +
+							'</div>'
+						);
+					}
+				},
+				{
+					name: 'FJLink',
+					url: [
+						/((?:.)+flockjay.com)\/(course|learning|hubs|classroom|feed\/opportunities)\/([\w=?&-]+)(\/view)?/
+					],
+					html: match => {
+						const domain = match[ 1 ];
+						const category = match[ 2 ];
+						let contentType, contentId;
+						if ( category === 'classroom' ) {
+							const params = new URL( match[ 0 ] ).searchParams;
+							const postId = params.get( 'postId' );
+							const assetId = params.get( 'assetId' );
+							const playlistId = params.get( 'playlistId' );
+							const promptId = params.get( 'promptId' );
+							const callId = params.get( 'callId' );
+
+							if ( playlistId ) {
+								contentType = 'playlist';
+								contentId = playlistId;
+							} else if ( promptId ) {
+								contentType = 'prompt';
+								contentId = promptId;
+							} else if ( postId ) {
+								contentType = 'feedpost';
+								contentId = postId;
+							} else if ( assetId ) {
+								contentType = 'asset';
+								contentId = assetId;
+							} else if ( callId ) {
+								contentType = 'gongcall';
+								contentId = callId;
+							}
+						} else {
+							if ( category === 'learning' ) {
+								contentType = 'learningpath';
+							} else if ( category === 'hubs' ) {
+								contentType = 'hub';
+							} else if ( category === 'feed/opportunities' ) {
+								contentType = 'opportunity';
+							} else {
+								contentType = 'course';
+							}
+							contentId = match[ 3 ];
+						}
+						const url = `${ domain }/embed/?contentId=${ contentId }&contentType=${ contentType }`;
+
+						return (
+							'<div style="position: relative; height: 216px;">' +
+								`<iframe src="${ url }"` +
+									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
+									'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>' +
 								'</iframe>' +
 							'</div>'
 						);
