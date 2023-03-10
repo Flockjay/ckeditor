@@ -237,7 +237,6 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'FJLink',
 					url: [
-						/^((?:.)+amplifyapp.com)\/(course|learningpath|hub|opportunity|classroom)\/(?!create)([\w=?&-]+)(\/)?$/,
 						/^((?:.)+flockjay.com)\/(course|learningpath|hub|opportunity|classroom)\/(?!create)([\w=?&-]+)(\/)?$/
 					],
 					html: match => {
