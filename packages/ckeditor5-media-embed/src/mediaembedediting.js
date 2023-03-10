@@ -237,7 +237,7 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'FJLink',
 					url: [
-						/((?:.)+flockjay.com)\/(course|learning|hubs|classroom|feed\/opportunities)\/([\w=?&-]+)(\/view)?/
+						/^((?:.)+flockjay.com)\/(course|learningpath|hub|opportunity|classroom)\/(?!create)([\w=?&-]+)(\/)?$/
 					],
 					html: match => {
 						const domain = match[ 1 ];
@@ -268,15 +268,7 @@ export default class MediaEmbedEditing extends Plugin {
 								contentId = callId;
 							}
 						} else {
-							if ( category === 'learning' ) {
-								contentType = 'learningpath';
-							} else if ( category === 'hubs' ) {
-								contentType = 'hub';
-							} else if ( category === 'feed/opportunities' ) {
-								contentType = 'opportunity';
-							} else {
-								contentType = 'course';
-							}
+							contentType = category;
 							contentId = match[ 3 ];
 						}
 						const url = `${ domain }/embed/?contentId=${ contentId }&contentType=${ contentType }`;
