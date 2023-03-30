@@ -165,6 +165,10 @@ export default class MediaEmbedEditing extends Plugin {
 							}
 						}
 
+						if ( url.includes( 'edit' ) ) {
+							url = url.replace( 'edit', 'preview' );
+						}
+
 						return (
 							'<div style="position: relative; height: 431px;">' +
 								`<iframe src="${ url }" ` +
