@@ -152,7 +152,7 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'googleContent', // handles docs, slides, and spreadsheets
 					url: [
-						/https:\/\/docs\.google\.com\/(?:document|presentation|spreadsheets)\/d\/(.*?)\/edit/,
+						/https:\/\/docs\.google\.com\/(?:document|presentation|spreadsheets)\/d\/(.*?)\/(edit|preview)/,
 						/https:\/\/docs\.google\.com\/(?:document|presentation|spreadsheets)\/d\/e\/(.*?)\/(pub|embed)(?:html)?/
 					],
 					html: match => {
