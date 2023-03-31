@@ -167,7 +167,14 @@ export default class MediaEmbedEditing extends Plugin {
 
 						if ( url.includes( 'edit' | 'present' ) ) {
 							url = url.replace( 'edit', 'preview' );
-							url = url.replace( 'present', 'preview' );
+							if ( url.includes( 'presentation' ) ) {
+								url = url
+									.replace( 'presentation', 'tempword' )
+									.replace( 'present', 'preview' )
+									.replace( 'tempword', 'presentation' );
+							} else {
+								url = url.replace( 'present', 'preview' );
+							}
 						}
 
 						return (
