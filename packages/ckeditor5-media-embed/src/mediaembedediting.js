@@ -152,7 +152,7 @@ export default class MediaEmbedEditing extends Plugin {
 				{
 					name: 'googleContent', // handles docs, slides, and spreadsheets
 					url: [
-						/https:\/\/docs\.google\.com\/(?:document|presentation|spreadsheets)\/d\/(.*?)\/edit/,
+						/https:\/\/docs\.google\.com\/(?:document|presentation|spreadsheets)\/d\/(.*?)\/(edit|preview|present)/,
 						/https:\/\/docs\.google\.com\/(?:document|presentation|spreadsheets)\/d\/e\/(.*?)\/(pub|embed)(?:html)?/
 					],
 					html: match => {
@@ -162,6 +162,18 @@ export default class MediaEmbedEditing extends Plugin {
 								url += '&embedded=true';
 							} else {
 								url += '?embedded=true';
+							}
+						}
+
+						if ( url.includes( 'edit' ) || url.includes( 'present' ) ) {
+							url = url.replace( 'edit', 'preview' );
+							if ( url.includes( 'presentation' ) ) {
+								url = url
+									.replace( 'presentation', 'tempword' )
+									.replace( 'present', 'preview' )
+									.replace( 'tempword', 'presentation' );
+							} else {
+								url = url.replace( 'present', 'preview' );
 							}
 						}
 
