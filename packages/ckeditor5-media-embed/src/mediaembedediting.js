@@ -87,9 +87,10 @@ export default class MediaEmbedEditing extends Plugin {
 					],
 					html: match => {
 						const url = match[ 0 ];
+						const [ fileName ] = /[^/]*$/.exec( url );
 
 						return (
-							`<img src=${ url } style="width: 100%;" >`
+							`<img src="${ url }" alt="${ fileName }" style="width: 100%;" >`
 						);
 					}
 				},
