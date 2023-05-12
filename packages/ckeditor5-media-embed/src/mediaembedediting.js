@@ -7,6 +7,10 @@
  * @module media-embed/mediaembedediting
  */
 
+/* eslint-disable no-undef */
+/* eslint-disable no-useless-escape */
+/* eslint-disable max-len */
+
 import { Plugin } from 'ckeditor5/src/core';
 import { first } from 'ckeditor5/src/utils';
 
@@ -73,6 +77,21 @@ export default class MediaEmbedEditing extends Plugin {
 									'frameborder="0" allowtransparency="true" allow="encrypted-media">' +
 								'</iframe>' +
 							'</div>'
+						);
+					}
+				},
+				{
+					name: 'gif',
+					url: [
+						/(http(s?):)([/|.|\w|\s|-])*\.gif/
+					],
+					html: match => {
+						const url = match[ 0 ];
+						const [ fileName ] = /[^/]*$/.exec( url );
+						const alt = fileName.substring( 0, fileName.lastIndexOf( '.' ) ) || fileName;
+
+						return (
+							`<img src="${ url }" alt="${ alt }" style="width: 100%;" >`
 						);
 					}
 				},
@@ -209,7 +228,7 @@ export default class MediaEmbedEditing extends Plugin {
 					name: 'fjVideo',
 					url: [
 						/^https:\/\/fj-file-uploads\.s3\.us-east-2\.amazonaws\.com\/((?:[\w+]+(?:%[0-9A-Fa-f]{2}|\/))?fjvideo-[\w-]+).([\w-]+)/,
-  					/^https:\/\/cdn.flockjay.com\/((?:[\w+]+(?:%[0-9A-Fa-f]{2}|\/))?fjvideo-[\w-]+).([\w-]+)/,
+						/^https:\/\/cdn.flockjay.com\/((?:[\w+]+(?:%[0-9A-Fa-f]{2}|\/))?fjvideo-[\w-]+).([\w-]+)/,
 						/^(?:https:\/\/(?:staging-)?api(?:-demo)?\.flockjay\.com|(?:http:\/\/)?localhost:8000)\/feed\/files\/(?:[a-zA-Z0-9\-]+)\/((?:[\w+]+(?:%[0-9A-Fa-f]{2}|\/))?fjvideo-[\w-]+).([\w-]+)/
 					],
 					html: match => {
