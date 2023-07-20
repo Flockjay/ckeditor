@@ -142,7 +142,8 @@ ClassicEditor.defaultConfig = {
 			'mediaEmbed',
 			'|',
 			'htmlEmbed'
-		]
+		],
+		shouldNotGroupWhenFull: true
 	},
 	image: {
 		toolbar: [
