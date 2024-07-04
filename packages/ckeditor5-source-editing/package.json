@@ -22,7 +22,7 @@
     "@ckeditor/ckeditor5-engine": "^34.1.0",
     "@ckeditor/ckeditor5-essentials": "^34.1.0",
     "@ckeditor/ckeditor5-heading": "^34.1.0",
-    "@ckeditor/ckeditor5-markdown-gfm": "^34.1.0",
+    "@ckeditor/ckeditor5-markdown-gfm": "^42.0.0",
     "@ckeditor/ckeditor5-paragraph": "^34.1.0",
     "@ckeditor/ckeditor5-table": "^34.1.0",
     "@ckeditor/ckeditor5-ui": "^34.1.0",
